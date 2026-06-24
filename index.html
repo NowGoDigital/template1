@@ -38,7 +38,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -61,21 +61,8 @@
             overflow: hidden;
         }
 
-        .announcement-bar span {
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .announcement-bar .marquee {
-            display: inline-flex;
-            gap: 60px;
-            animation: marquee 20s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
+        .announcement-bar span { color: var(--accent); font-weight: 700; }
+        .announcement-bar a { color: white; text-decoration: underline; font-weight: 600; }
 
         /* ===== TOP BAR ===== */
         .top-bar {
@@ -95,22 +82,10 @@
             color: var(--gray-500);
         }
 
-        .top-bar-left { display: flex; gap: 20px; align-items: center; }
-        .top-bar-right { display: flex; gap: 20px; align-items: center; }
-
-        .top-bar a {
-            color: var(--gray-500);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
+        .top-bar-left, .top-bar-right { display: flex; gap: 20px; align-items: center; }
+        .top-bar a { color: var(--gray-500); text-decoration: none; transition: color 0.3s; }
         .top-bar a:hover { color: var(--rose); }
-
-        .top-bar-divider {
-            width: 1px;
-            height: 14px;
-            background: var(--gray-300);
-        }
+        .top-bar-divider { width: 1px; height: 14px; background: var(--gray-300); }
 
         /* ===== NAVBAR ===== */
         .fh-navbar {
@@ -122,9 +97,7 @@
             transition: all 0.3s;
         }
 
-        .fh-navbar.scrolled {
-            box-shadow: var(--shadow-md);
-        }
+        .fh-navbar.scrolled { box-shadow: var(--shadow-md); }
 
         .fh-navbar-inner {
             max-width: 1400px;
@@ -145,10 +118,7 @@
             letter-spacing: -0.5px;
         }
 
-        .fh-logo em {
-            font-style: normal;
-            color: var(--rose);
-        }
+        .fh-logo em { font-style: normal; color: var(--rose); }
 
         .fh-nav-links {
             display: flex;
@@ -188,7 +158,7 @@
             top: 100%;
             left: -20px;
             background: white;
-            min-width: 220px;
+            min-width: 240px;
             border-radius: 12px;
             box-shadow: var(--shadow-xl);
             border: 1px solid var(--gray-200);
@@ -216,17 +186,9 @@
         }
 
         .dropdown a::after { display: none; }
+        .dropdown a:hover { background: var(--rose-light); color: var(--rose); }
 
-        .dropdown a:hover {
-            background: var(--rose-light);
-            color: var(--rose);
-        }
-
-        .fh-nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .fh-nav-actions { display: flex; align-items: center; gap: 8px; }
 
         .fh-nav-action-btn {
             width: 42px;
@@ -244,10 +206,7 @@
             position: relative;
         }
 
-        .fh-nav-action-btn:hover {
-            background: var(--gray-100);
-            color: var(--rose);
-        }
+        .fh-nav-action-btn:hover { background: var(--gray-100); color: var(--rose); }
 
         .cart-count {
             position: absolute;
@@ -309,10 +268,6 @@
             height: 100%;
             display: flex;
             align-items: center;
-            transition: opacity 0.8s;
-        }
-
-        .fh-hero-slide:nth-child(1) {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         }
 
@@ -355,10 +310,7 @@
             color: white;
         }
 
-        .fh-hero-title em {
-            font-style: italic;
-            color: var(--accent);
-        }
+        .fh-hero-title em { font-style: italic; color: var(--accent); }
 
         .fh-hero-desc {
             font-size: 16px;
@@ -368,11 +320,7 @@
             line-height: 1.8;
         }
 
-        .fh-hero-buttons {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
+        .fh-hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
 
         .fh-btn {
             padding: 14px 32px;
@@ -400,15 +348,8 @@
             box-shadow: 0 8px 30px rgba(233,69,96,0.5);
         }
 
-        .fh-btn-white {
-            background: white;
-            color: var(--primary);
-        }
-
-        .fh-btn-white:hover {
-            background: var(--gray-100);
-            transform: translateY(-2px);
-        }
+        .fh-btn-white { background: white; color: var(--primary); }
+        .fh-btn-white:hover { background: var(--gray-100); transform: translateY(-2px); }
 
         .fh-btn-outline-white {
             background: transparent;
@@ -447,16 +388,6 @@
             overflow: hidden;
         }
 
-        .fh-hero-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent 60%, rgba(26,26,46,0.5) 100%);
-        }
-
         .fh-hero-float-badge {
             position: absolute;
             background: white;
@@ -488,9 +419,9 @@
             font-size: 16px;
         }
 
-        .fh-hero-float-badge .badge-icon.rose { background: var(--rose-light); color: var(--rose); }
-        .fh-hero-float-badge .badge-icon.gold { background: #fff8e1; color: var(--accent); }
-        .fh-hero-float-badge .badge-icon.green { background: #e8f5e9; color: var(--emerald); }
+        .badge-icon.rose { background: var(--rose-light); color: var(--rose); }
+        .badge-icon.gold { background: #fff8e1; color: var(--accent); }
+        .badge-icon.green { background: #e8f5e9; color: var(--emerald); }
 
         .fh-hero-float-badge .badge-text h4 { font-size: 13px; font-weight: 700; color: var(--gray-800); }
         .fh-hero-float-badge .badge-text p { font-size: 11px; color: var(--gray-500); }
@@ -511,11 +442,7 @@
             align-items: center;
         }
 
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+        .trust-item { display: flex; align-items: center; gap: 14px; }
 
         .trust-icon {
             width: 48px;
@@ -534,9 +461,7 @@
         .trust-text p { font-size: 12px; color: var(--gray-500); }
 
         /* ===== SECTION COMMON ===== */
-        .fh-section {
-            padding: 80px 0;
-        }
+        .fh-section { padding: 80px 0; }
 
         .fh-container {
             max-width: 1400px;
@@ -544,10 +469,7 @@
             padding: 0 40px;
         }
 
-        .fh-section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+        .fh-section-header { text-align: center; margin-bottom: 50px; }
 
         .fh-section-tag {
             font-size: 12px;
@@ -631,10 +553,7 @@
             margin-bottom: 4px;
         }
 
-        .category-card p {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
+        .category-card p { font-size: 12px; color: var(--gray-500); }
 
         /* ===== PRODUCTS ===== */
         .products-section { background: var(--gray-50); }
@@ -704,8 +623,8 @@
 
         .product-card:hover .product-image-bg { transform: scale(1.08); }
 
-        .product-card:nth-child(1) .product-image-bg { background: linear-gradient(180deg, #fce4ec, #f8bbd0); }
-        .product-card:nth-child(2) .product-image-bg { background: linear-gradient(180deg, #e3f2fd, #bbdefb); }
+        .product-card:nth-child(odd) .product-image-bg { background: linear-gradient(180deg, #fce4ec, #f8bbd0); }
+        .product-card:nth-child(even) .product-image-bg { background: linear-gradient(180deg, #e3f2fd, #bbdefb); }
         .product-card:nth-child(3) .product-image-bg { background: linear-gradient(180deg, #f3e5f5, #ce93d8); }
         .product-card:nth-child(4) .product-image-bg { background: linear-gradient(180deg, #fff3e0, #ffcc80); }
         .product-card:nth-child(5) .product-image-bg { background: linear-gradient(180deg, #e8f5e9, #a5d6a7); }
@@ -762,10 +681,7 @@
             transition: all 0.3s;
         }
 
-        .product-action-btn:hover {
-            background: var(--rose);
-            color: white;
-        }
+        .product-action-btn:hover { background: var(--rose); color: white; }
 
         .product-quick-add {
             position: absolute;
@@ -790,9 +706,7 @@
 
         .product-card:hover .product-quick-add { transform: translateY(0); }
 
-        .product-info {
-            padding: 20px;
-        }
+        .product-info { padding: 20px; }
 
         .product-brand {
             font-size: 11.5px;
@@ -812,26 +726,12 @@
             line-height: 1.4;
         }
 
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-
+        .product-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
         .product-stars { display: flex; gap: 2px; }
         .product-stars i { font-size: 11px; color: var(--accent); }
+        .product-rating span { font-size: 12px; color: var(--gray-500); }
 
-        .product-rating span {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .product-price {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .product-price { display: flex; align-items: center; gap: 10px; }
 
         .product-price .current {
             font-family: 'DM Sans', sans-serif;
@@ -856,9 +756,7 @@
         }
 
         /* ===== PROMO BANNER ===== */
-        .promo-section {
-            padding: 0;
-        }
+        .promo-section { padding: 0; }
 
         .promo-grid {
             display: grid;
@@ -911,10 +809,7 @@
             margin-bottom: 24px;
         }
 
-        .promo-card .fh-btn {
-            padding: 12px 28px;
-            font-size: 13px;
-        }
+        .promo-card .fh-btn { padding: 12px 28px; font-size: 13px; }
 
         .promo-card-image {
             font-size: 100px;
@@ -934,7 +829,7 @@
             background: rgba(255,255,255,0.05);
         }
 
-        /* ===== FEATURED / TRENDING ===== */
+        /* ===== TRENDING ===== */
         .trending-section { background: var(--white); }
 
         .trending-grid {
@@ -991,6 +886,7 @@
             gap: 20px;
             align-items: center;
             transition: all 0.3s;
+            text-decoration: none;
         }
 
         .trending-side:hover {
@@ -1143,11 +1039,7 @@
             opacity: 0.15;
         }
 
-        .newsletter-inner {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
+        .newsletter-inner { text-align: center; position: relative; z-index: 2; }
 
         .newsletter-inner h2 {
             font-family: 'Playfair Display', serif;
@@ -1208,7 +1100,7 @@
             transform: translateY(-2px);
         }
 
-        /* ===== INSTAGRAM FEED ===== */
+        /* ===== INSTAGRAM ===== */
         .insta-section {
             padding: 60px 0 0;
             background: white;
@@ -1263,7 +1155,6 @@
         }
 
         .insta-item:hover .insta-overlay { opacity: 1; }
-
         .insta-overlay i { color: white; font-size: 24px; }
 
         /* ===== FOOTER ===== */
@@ -1290,11 +1181,7 @@
             line-height: 1.8;
         }
 
-        .fh-footer-socials {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
+        .fh-footer-socials { display: flex; gap: 10px; margin-top: 20px; }
 
         .fh-footer-social {
             width: 40px;
@@ -1324,7 +1211,6 @@
         }
 
         .fh-footer-col ul { list-style: none; }
-
         .fh-footer-col ul li { margin-bottom: 10px; }
 
         .fh-footer-col ul li a {
@@ -1346,10 +1232,7 @@
             line-height: 1.7;
         }
 
-        .fh-footer-newsletter-form {
-            display: flex;
-            gap: 8px;
-        }
+        .fh-footer-newsletter-form { display: flex; gap: 8px; }
 
         .fh-footer-newsletter-form input {
             flex: 1;
@@ -1377,9 +1260,7 @@
 
         .fh-footer-newsletter-form button:hover { background: #d63050; }
 
-        .fh-footer-payment {
-            margin-top: 20px;
-        }
+        .fh-footer-payment { margin-top: 20px; }
 
         .fh-footer-payment h4 {
             font-size: 12px;
@@ -1390,11 +1271,7 @@
             letter-spacing: 1px;
         }
 
-        .payment-icons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .payment-icons { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .payment-icon {
             padding: 6px 14px;
@@ -1413,14 +1290,10 @@
             border-top: 1px solid rgba(255,255,255,0.08);
         }
 
-        .fh-footer-bottom p {
-            font-size: 13px;
-            color: rgba(255,255,255,0.4);
-        }
-
+        .fh-footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
         .fh-footer-bottom a { color: var(--rose); text-decoration: none; }
 
-        /* ===== FLOATING WHATSAPP ===== */
+        /* ===== FLOATING BUTTONS ===== */
         .wa-float {
             position: fixed;
             bottom: 30px;
@@ -1451,7 +1324,6 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* ===== BACK TO TOP ===== */
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -1473,15 +1345,8 @@
             transition: all 0.3s;
         }
 
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background: var(--rose);
-            transform: translateY(-3px);
-        }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background: var(--rose); transform: translateY(-3px); }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
@@ -1525,17 +1390,14 @@
             transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .fh-reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fh-reveal.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
     <!-- Announcement Bar -->
     <div class="announcement-bar">
-        🔥 <span>MEGA SALE!</span> Diskon hingga <span>70%</span> untuk koleksi Summer 2026 — Gratis ongkir seluruh Indonesia! 🔥
+        🔥 <span>MEGA SALE!</span> Diskon hingga <span>70%</span> untuk koleksi Summer 2026 — <a href="#promo">Lihat Promo</a> 🔥
     </div>
 
     <!-- Top Bar -->
@@ -1547,11 +1409,11 @@
                 <span><i class="fas fa-envelope"></i> hello@fashionhub.id</span>
             </div>
             <div class="top-bar-right">
-                <a href="#">Lacak Pesanan</a>
+                <a href="#footer">Lacak Pesanan</a>
                 <div class="top-bar-divider"></div>
-                <a href="#">Bantuan</a>
+                <a href="#reviews">Bantuan</a>
                 <div class="top-bar-divider"></div>
-                <a href="#">🇮🇩 ID | Rp</a>
+                <a href="#beranda">🇮🇩 ID | Rp</a>
             </div>
         </div>
     </div>
@@ -1559,7 +1421,7 @@
     <!-- Navbar -->
     <nav class="fh-navbar" id="fhNavbar">
         <div class="fh-navbar-inner">
-            <a href="#" class="fh-logo">Fashion<em>Hub</em></a>
+            <a href="#beranda" class="fh-logo">Fashion<em>Hub</em></a>
 
             <div class="fh-search-bar">
                 <i class="fas fa-search"></i>
@@ -1567,34 +1429,34 @@
             </div>
 
             <ul class="fh-nav-links">
-                <li><a href="#">Beranda</a></li>
+                <li><a href="#beranda">Beranda</a></li>
                 <li class="has-dropdown">
-                    <a href="#">Wanita <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
+                    <a href="#produk">Wanita <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
                     <div class="dropdown">
-                        <a href="#"><i class="fas fa-tshirt"></i> Atasan</a>
-                        <a href="#"><i class="fas fa-socks"></i> Rok & Celana</a>
-                        <a href="#"><i class="fas fa-vest"></i> Jaket & Outer</a>
-                        <a href="#"><i class="fas fa-shoe-prints"></i> Sepatu</a>
-                        <a href="#"><i class="fas fa-bag-shopping"></i> Tas</a>
+                        <a href="#kategori-dress"><i class="fas fa-tshirt"></i> Atasan / Dress</a>
+                        <a href="#kategori-dress"><i class="fas fa-socks"></i> Rok & Celana</a>
+                        <a href="#kategori-jaket"><i class="fas fa-vest"></i> Jaket & Outer</a>
+                        <a href="#kategori-sepatu"><i class="fas fa-shoe-prints"></i> Sepatu</a>
+                        <a href="#kategori-tas"><i class="fas fa-bag-shopping"></i> Tas</a>
                     </div>
                 </li>
                 <li class="has-dropdown">
-                    <a href="#">Pria <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
+                    <a href="#produk">Pria <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
                     <div class="dropdown">
-                        <a href="#"><i class="fas fa-tshirt"></i> Kaos & Kemeja</a>
-                        <a href="#"><i class="fas fa-socks"></i> Celana</a>
-                        <a href="#"><i class="fas fa-vest"></i> Hoodie & Jacket</a>
-                        <a href="#"><i class="fas fa-shoe-prints"></i> Sneakers</a>
+                        <a href="#produk"><i class="fas fa-tshirt"></i> Kaos & Kemeja</a>
+                        <a href="#produk"><i class="fas fa-socks"></i> Celana</a>
+                        <a href="#kategori-jaket"><i class="fas fa-vest"></i> Hoodie & Jacket</a>
+                        <a href="#kategori-sepatu"><i class="fas fa-shoe-prints"></i> Sneakers</a>
                     </div>
                 </li>
-                <li><a href="#">Aksesoris</a></li>
-                <li><a href="#" style="color: var(--rose); font-weight: 700;">Sale 🔥</a></li>
+                <li><a href="#kategori-aksesoris">Aksesoris</a></li>
+                <li><a href="#promo" style="color: var(--rose); font-weight: 700;">Sale 🔥</a></li>
             </ul>
 
             <div class="fh-nav-actions">
-                <button class="fh-nav-action-btn"><i class="far fa-user"></i></button>
-                <button class="fh-nav-action-btn"><i class="far fa-heart"></i></button>
-                <button class="fh-nav-action-btn">
+                <button class="fh-nav-action-btn" title="Akun"><i class="far fa-user"></i></button>
+                <button class="fh-nav-action-btn" title="Wishlist"><i class="far fa-heart"></i></button>
+                <button class="fh-nav-action-btn" title="Keranjang">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">3</span>
                 </button>
@@ -1603,7 +1465,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="fh-hero">
+    <section class="fh-hero" id="beranda">
         <div class="fh-hero-slide">
             <div class="fh-hero-content">
                 <div class="fh-hero-text">
@@ -1620,19 +1482,17 @@
                         Jelajahi ribuan produk fashion terkini dari brand lokal & internasional. Tampil stylish setiap hari dengan harga terbaik.
                     </p>
                     <div class="fh-hero-buttons">
-                        <a href="#" class="fh-btn fh-btn-primary">
+                        <a href="#produk" class="fh-btn fh-btn-primary">
                             Belanja Sekarang <i class="fas fa-arrow-right"></i>
                         </a>
-                        <a href="#" class="fh-btn fh-btn-outline-white">
+                        <a href="#trending" class="fh-btn fh-btn-outline-white">
                             <i class="fas fa-play-circle"></i> Lihat Lookbook
                         </a>
                     </div>
                 </div>
                 <div class="fh-hero-visual">
                     <div class="fh-hero-image-wrapper">
-                        <div class="fh-hero-image">
-                            👗
-                        </div>
+                        <div class="fh-hero-image">👗</div>
                         <div class="fh-hero-float-badge badge-1">
                             <div class="badge-icon rose"><i class="fas fa-fire"></i></div>
                             <div class="badge-text">
@@ -1661,7 +1521,7 @@
     </section>
 
     <!-- Trust Bar -->
-    <div class="trust-bar">
+    <section class="trust-bar" id="layanan">
         <div class="trust-bar-inner">
             <div class="trust-item">
                 <div class="trust-icon"><i class="fas fa-truck-fast"></i></div>
@@ -1692,10 +1552,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Categories -->
-    <section class="fh-section categories-section">
+    <section class="fh-section categories-section" id="kategori">
         <div class="fh-container">
             <div class="fh-section-header fh-reveal">
                 <div class="fh-section-tag">Kategori</div>
@@ -1703,32 +1563,32 @@
                 <p class="fh-section-desc">Temukan produk fashion favoritmu dari berbagai kategori pilihan</p>
             </div>
             <div class="categories-grid">
-                <a href="#" class="category-card fh-reveal">
+                <a href="#produk" class="category-card fh-reveal" id="kategori-dress" onclick="filterProducts('Semua')">
                     <div class="category-icon">👗</div>
                     <h3>Dress</h3>
                     <p>1,240 produk</p>
                 </a>
-                <a href="#" class="category-card fh-reveal">
+                <a href="#produk" class="category-card fh-reveal" onclick="filterProducts('Pria')">
                     <div class="category-icon">👔</div>
                     <h3>Kemeja</h3>
                     <p>856 produk</p>
                 </a>
-                <a href="#" class="category-card fh-reveal">
+                <a href="#produk" class="category-card fh-reveal" id="kategori-tas" onclick="filterProducts('Aksesoris')">
                     <div class="category-icon">👜</div>
                     <h3>Tas</h3>
                     <p>2,100 produk</p>
                 </a>
-                <a href="#" class="category-card fh-reveal">
+                <a href="#produk" class="category-card fh-reveal" id="kategori-sepatu" onclick="filterProducts('Sepatu')">
                     <div class="category-icon">👟</div>
                     <h3>Sepatu</h3>
                     <p>1,780 produk</p>
                 </a>
-                <a href="#" class="category-card fh-reveal">
+                <a href="#produk" class="category-card fh-reveal" id="kategori-jaket" onclick="filterProducts('Semua')">
                     <div class="category-icon">🧥</div>
                     <h3>Jaket</h3>
                     <p>650 produk</p>
                 </a>
-                <a href="#" class="category-card fh-reveal">
+                <a href="#produk" class="category-card fh-reveal" id="kategori-aksesoris" onclick="filterProducts('Aksesoris')">
                     <div class="category-icon">💍</div>
                     <h3>Aksesoris</h3>
                     <p>3,200 produk</p>
@@ -1738,7 +1598,7 @@
     </section>
 
     <!-- Products -->
-    <section class="fh-section products-section">
+    <section class="fh-section products-section" id="produk">
         <div class="fh-container">
             <div class="fh-section-header fh-reveal">
                 <div class="fh-section-tag">Produk Pilihan</div>
@@ -1746,14 +1606,14 @@
                 <p class="fh-section-desc">Produk paling diminati oleh pelanggan kami</p>
             </div>
             <div class="products-tabs fh-reveal">
-                <button class="product-tab active">Semua</button>
-                <button class="product-tab">Wanita</button>
-                <button class="product-tab">Pria</button>
-                <button class="product-tab">Aksesoris</button>
-                <button class="product-tab">Sepatu</button>
+                <button class="product-tab active" onclick="filterProducts('Semua')">Semua</button>
+                <button class="product-tab" onclick="filterProducts('Wanita')">Wanita</button>
+                <button class="product-tab" onclick="filterProducts('Pria')">Pria</button>
+                <button class="product-tab" onclick="filterProducts('Aksesoris')">Aksesoris</button>
+                <button class="product-tab" onclick="filterProducts('Sepatu')">Sepatu</button>
             </div>
-            <div class="products-grid">
-                <div class="product-card fh-reveal">
+            <div class="products-grid" id="productsGrid">
+                <div class="product-card fh-reveal" data-category="Wanita">
                     <div class="product-image">
                         <div class="product-image-bg">👗</div>
                         <span class="product-badge sale">-40%</span>
@@ -1779,7 +1639,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Pria">
                     <div class="product-image">
                         <div class="product-image-bg">👔</div>
                         <span class="product-badge new">Baru</span>
@@ -1803,7 +1663,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Aksesoris">
                     <div class="product-image">
                         <div class="product-image-bg">👜</div>
                         <span class="product-badge hot">Hot</span>
@@ -1829,7 +1689,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Sepatu">
                     <div class="product-image">
                         <div class="product-image-bg">👟</div>
                         <div class="product-actions">
@@ -1852,7 +1712,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Pria">
                     <div class="product-image">
                         <div class="product-image-bg">🧥</div>
                         <span class="product-badge sale">-35%</span>
@@ -1878,7 +1738,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Sepatu">
                     <div class="product-image">
                         <div class="product-image-bg">👠</div>
                         <span class="product-badge new">Baru</span>
@@ -1902,7 +1762,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Aksesoris">
                     <div class="product-image">
                         <div class="product-image-bg">⌚</div>
                         <span class="product-badge hot">Hot</span>
@@ -1928,7 +1788,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal">
+                <div class="product-card fh-reveal" data-category="Aksesoris">
                     <div class="product-image">
                         <div class="product-image-bg">🧢</div>
                         <div class="product-actions">
@@ -1956,14 +1816,14 @@
     </section>
 
     <!-- Promo Banners -->
-    <section class="promo-section">
+    <section class="promo-section" id="promo">
         <div class="promo-grid">
             <div class="promo-card fh-reveal">
                 <div class="promo-card-content">
                     <h4>Koleksi Spesial</h4>
                     <h2>Summer Vibes<br>Collection 2026</h2>
                     <p>Outfit ringan & stylish untuk musim panas. Mulai dari Rp 99rb!</p>
-                    <a href="#" class="fh-btn fh-btn-white">Jelajahi Koleksi <i class="fas fa-arrow-right"></i></a>
+                    <a href="#produk" class="fh-btn fh-btn-white">Jelajahi Koleksi <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="promo-card-image">☀️</div>
             </div>
@@ -1972,7 +1832,7 @@
                     <h4>Flash Sale</h4>
                     <h2>Diskon 70%<br>Brand Premium</h2>
                     <p>Hanya 3 hari! Jangan lewatkan penawaran terbaik tahun ini.</p>
-                    <a href="#" class="fh-btn fh-btn-white">Belanja Sekarang <i class="fas fa-bolt"></i></a>
+                    <a href="#produk" class="fh-btn fh-btn-white">Belanja Sekarang <i class="fas fa-bolt"></i></a>
                 </div>
                 <div class="promo-card-image">🔥</div>
             </div>
@@ -1980,7 +1840,7 @@
     </section>
 
     <!-- Trending Section -->
-    <section class="fh-section trending-section">
+    <section class="fh-section trending-section" id="trending">
         <div class="fh-container">
             <div class="fh-section-header fh-reveal">
                 <div class="fh-section-tag">Trending</div>
@@ -1992,11 +1852,11 @@
                     <div class="fh-section-tag">Editor's Pick</div>
                     <h2>Koleksi Lebaran<br>Elegance Series</h2>
                     <p>Busana muslim modern dengan sentuhan elegan untuk hari raya yang berkesan. Tersedia dalam 12 pilihan warna.</p>
-                    <a href="#" class="fh-btn fh-btn-primary" style="width: fit-content;">
+                    <a href="#produk" class="fh-btn fh-btn-primary" style="width: fit-content;">
                         Lihat Koleksi <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-                <div class="trending-side fh-reveal">
+                <a href="#produk" class="trending-side fh-reveal">
                     <div class="trending-side-image">👟</div>
                     <div class="trending-side-info">
                         <h3>Running Shoes Pro X</h3>
@@ -2006,8 +1866,8 @@
                             <span class="original">Rp 999.000</span>
                         </div>
                     </div>
-                </div>
-                <div class="trending-side fh-reveal">
+                </a>
+                <a href="#produk" class="trending-side fh-reveal">
                     <div class="trending-side-image">👜</div>
                     <div class="trending-side-info">
                         <h3>Crossbody Bag Signature</h3>
@@ -2016,13 +1876,13 @@
                             <span class="current">Rp 279.000</span>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Reviews -->
-    <section class="fh-section reviews-section">
+    <section class="fh-section reviews-section" id="reviews">
         <div class="fh-container">
             <div class="fh-section-header fh-reveal">
                 <div class="fh-section-tag">Ulasan Pelanggan</div>
@@ -2104,7 +1964,7 @@
     </section>
 
     <!-- Newsletter -->
-    <section class="newsletter-section">
+    <section class="newsletter-section" id="newsletter">
         <div class="fh-container">
             <div class="newsletter-inner fh-reveal">
                 <h2>Dapatkan Diskon 15% untuk<br>Pesanan Pertamamu!</h2>
@@ -2118,7 +1978,7 @@
     </section>
 
     <!-- Instagram Feed -->
-    <section class="insta-section">
+    <section class="insta-section" id="instagram">
         <div class="fh-section-header fh-reveal">
             <div class="fh-section-tag">@fashionhub.id</div>
             <h2 class="fh-section-title">Follow Kami di Instagram</h2>
@@ -2152,14 +2012,14 @@
     </section>
 
     <!-- Footer -->
-    <footer class="fh-footer">
+    <footer class="fh-footer" id="footer">
         <div class="fh-container">
             <div class="fh-footer-grid">
                 <div class="fh-footer-brand">
-                    <a href="#" class="fh-logo">Fashion<em>Hub</em></a>
+                    <a href="#beranda" class="fh-logo">Fashion<em>Hub</em></a>
                     <p>Destinasi fashion online terpercaya #1 di Indonesia. Menyediakan ribuan produk fashion berkualitas dari brand lokal & internasional.</p>
                     <div class="fh-footer-socials">
-                        <a href="#" class="fh-footer-social"><i class="fab fa-instagram"></i></a>
+                        <a href="#instagram" class="fh-footer-social"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="fh-footer-social"><i class="fab fa-tiktok"></i></a>
                         <a href="#" class="fh-footer-social"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="fh-footer-social"><i class="fab fa-twitter"></i></a>
@@ -2169,34 +2029,34 @@
                 <div class="fh-footer-col">
                     <h4>Belanja</h4>
                     <ul>
-                        <li><a href="#">Wanita</a></li>
-                        <li><a href="#">Pria</a></li>
-                        <li><a href="#">Aksesoris</a></li>
-                        <li><a href="#">Sepatu</a></li>
-                        <li><a href="#">Tas</a></li>
-                        <li><a href="#">Sale</a></li>
+                        <li><a href="#produk">Wanita</a></li>
+                        <li><a href="#produk">Pria</a></li>
+                        <li><a href="#kategori-aksesoris">Aksesoris</a></li>
+                        <li><a href="#kategori-sepatu">Sepatu</a></li>
+                        <li><a href="#kategori-tas">Tas</a></li>
+                        <li><a href="#promo">Sale</a></li>
                     </ul>
                 </div>
                 <div class="fh-footer-col">
                     <h4>Bantuan</h4>
                     <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Cara Belanja</a></li>
-                        <li><a href="#">Pengiriman</a></li>
-                        <li><a href="#">Pengembalian</a></li>
-                        <li><a href="#">Lacak Pesanan</a></li>
-                        <li><a href="#">Hubungi Kami</a></li>
+                        <li><a href="#reviews">FAQ</a></li>
+                        <li><a href="#produk">Cara Belanja</a></li>
+                        <li><a href="#layanan">Pengiriman</a></li>
+                        <li><a href="#layanan">Pengembalian</a></li>
+                        <li><a href="#footer">Lacak Pesanan</a></li>
+                        <li><a href="#footer">Hubungi Kami</a></li>
                     </ul>
                 </div>
                 <div class="fh-footer-col">
                     <h4>Perusahaan</h4>
                     <ul>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Karir</a></li>
-                        <li><a href="#">Blog Fashion</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Kebijakan Privasi</a></li>
-                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="#beranda">Tentang Kami</a></li>
+                        <li><a href="#footer">Karir</a></li>
+                        <li><a href="#reviews">Blog Fashion</a></li>
+                        <li><a href="#footer">Press</a></li>
+                        <li><a href="#footer">Kebijakan Privasi</a></li>
+                        <li><a href="#footer">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>
                 <div class="fh-footer-col fh-footer-newsletter">
@@ -2223,18 +2083,17 @@
             </div>
             <div class="fh-footer-bottom">
                 <p>&copy; 2026 FashionHub Store. All rights reserved.</p>
-                <p>Dibuat oleh <a href="#">DIGITAL PRO</a> 🚀</p>
+                <p>Dibuat oleh <a href="#beranda">DIGITAL PRO</a> 🚀</p>
             </div>
         </div>
     </footer>
 
-    <!-- Floating WhatsApp -->
+    <!-- Floating Buttons -->
     <a href="https://wa.me/6281234567890" class="wa-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Back to Top -->
-    <a href="#" class="back-to-top" id="backToTop">
+    <a href="#beranda" class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </a>
 
@@ -2253,11 +2112,40 @@
             }
         });
 
-        // Product tabs
+        // Product Filter Function
+        function filterProducts(category) {
+            // Update active tab
+            document.querySelectorAll('.product-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.trim() === category) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Filter product cards
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'Semua' || cardCategory === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        // Product tabs click
         document.querySelectorAll('.product-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.product-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
+                filterProducts(tab.textContent.trim());
             });
         });
 
@@ -2287,6 +2175,26 @@
                     icon.classList.add('far');
                     this.style.background = 'white';
                     this.style.color = 'var(--gray-600)';
+                }
+            });
+        });
+
+        // Smooth scroll for all anchor links (already handled by CSS scroll-behavior, but add offset)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 90; // Navbar height
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
