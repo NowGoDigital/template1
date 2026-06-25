@@ -219,9 +219,20 @@
             border-radius: 50%;
             font-size: 10px;
             font-weight: 700;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 8px rgba(233,69,96,0.4);
+            transition: all 0.3s;
+        }
+
+        .cart-count.visible { display: flex; }
+
+        .cart-count.pulse { animation: cartPulse 0.5s ease; }
+
+        @keyframes cartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
         }
 
         .fh-search-bar {
@@ -702,9 +713,11 @@
             gap: 8px;
             transform: translateY(100%);
             transition: transform 0.3s;
+            font-family: inherit;
         }
 
         .product-card:hover .product-quick-add { transform: translateY(0); }
+        .product-quick-add:hover { background: var(--rose); }
 
         .product-info { padding: 20px; }
 
@@ -1348,6 +1361,524 @@
         .back-to-top.visible { opacity: 1; visibility: visible; }
         .back-to-top:hover { background: var(--rose); transform: translateY(-3px); }
 
+        /* ===== CART DRAWER ===== */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .cart-overlay.active { opacity: 1; visibility: visible; }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 420px;
+            max-width: 100vw;
+            height: 100vh;
+            background: white;
+            z-index: 1101;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+        }
+
+        .cart-drawer.active { right: 0; }
+
+        .cart-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-header h3 .count {
+            background: var(--rose);
+            color: white;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
+        .cart-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: #f3f4f6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+            color: #4b5563;
+        }
+
+        .cart-close:hover { background: #dc2626; color: white; transform: rotate(90deg); }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+        }
+
+        .cart-items::-webkit-scrollbar { width: 6px; }
+        .cart-items::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .cart-empty i { font-size: 64px; margin-bottom: 16px; color: #d1d5db; display: block; }
+        .cart-empty h4 { font-size: 16px; font-weight: 600; color: #4b5563; margin-bottom: 6px; }
+        .cart-empty p { font-size: 13px; }
+
+        .cart-item {
+            display: flex;
+            gap: 14px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f3f4f6;
+            animation: cartItemSlide 0.3s ease-out;
+        }
+
+        @keyframes cartItemSlide {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .cart-item-info { flex: 1; min-width: 0; }
+
+        .cart-item-info h4 {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cart-item-info .brand { font-size: 11.5px; color: #9ca3af; margin-bottom: 8px; }
+
+        .cart-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-qty {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cart-qty button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: #f9fafb;
+            cursor: pointer;
+            font-size: 12px;
+            color: #4b5563;
+            transition: all 0.2s;
+        }
+
+        .cart-qty button:hover { background: var(--rose); color: white; }
+
+        .cart-qty input {
+            width: 36px;
+            height: 28px;
+            border: none;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            background: white;
+            -moz-appearance: textfield;
+        }
+
+        .cart-qty input::-webkit-outer-spin-button,
+        .cart-qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .cart-item-price { font-size: 14px; font-weight: 700; color: #1f2937; }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 4px;
+            margin-left: 8px;
+            transition: color 0.2s;
+        }
+
+        .cart-item-remove:hover { color: #dc2626; }
+
+        .cart-footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 20px 24px;
+            background: #fafafa;
+        }
+
+        .cart-summary { margin-bottom: 16px; }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13.5px;
+            color: #4b5563;
+        }
+
+        .cart-summary-row.total {
+            border-top: 1px dashed #e5e7eb;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .cart-summary-row.total .amount { color: var(--rose); }
+
+        .cart-checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--rose);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .cart-checkout-btn:hover {
+            background: #d63050;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233,69,96,0.3);
+        }
+
+        /* ===== CHECKOUT MODAL ===== */
+        .checkout-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .checkout-modal-overlay.active { display: flex; }
+
+        .checkout-modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 640px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .checkout-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .checkout-header h2 { font-size: 20px; font-weight: 700; }
+
+        .checkout-body { padding: 24px 28px; }
+
+        .checkout-section { margin-bottom: 24px; }
+
+        .checkout-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .checkout-section-title i { color: var(--rose); }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .checkout-field { margin-bottom: 12px; }
+        .checkout-field.full { grid-column: 1 / -1; }
+
+        .checkout-field label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 6px;
+        }
+
+        .checkout-field label .req { color: #dc2626; }
+
+        .checkout-field input,
+        .checkout-field textarea,
+        .checkout-field select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .checkout-field input:focus,
+        .checkout-field textarea:focus,
+        .checkout-field select:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+        }
+
+        .checkout-field textarea { resize: vertical; min-height: 70px; }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .payment-option {
+            padding: 14px 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .payment-option:hover { border-color: var(--rose); }
+
+        .payment-option.selected {
+            border-color: var(--rose);
+            background: #fef2f4;
+        }
+
+        .payment-option i { font-size: 22px; color: var(--rose); margin-bottom: 6px; display: block; }
+        .payment-option h5 { font-size: 12px; font-weight: 700; color: #1f2937; margin-bottom: 2px; }
+        .payment-option p { font-size: 10.5px; color: #6b7280; }
+
+        .checkout-items {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+            border-bottom: 1px dashed #f3f4f6;
+        }
+
+        .checkout-item-name { color: #4b5563; flex: 1; }
+        .checkout-item-qty { color: #9ca3af; margin: 0 12px; }
+        .checkout-item-price { font-weight: 600; color: #1f2937; min-width: 100px; text-align: right; }
+
+        .checkout-totals {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .checkout-totals .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 13.5px;
+            color: #4b5563;
+        }
+
+        .checkout-totals .row.grand {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1f2937;
+            padding-top: 10px;
+            margin-top: 8px;
+            border-top: 1px dashed #e5e7eb;
+        }
+
+        .checkout-totals .row.grand .amount { color: var(--rose); }
+
+        .checkout-footer {
+            padding: 20px 28px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        .checkout-footer .btn {
+            flex: 1;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-back { background: #f3f4f6; color: #4b5563; }
+        .btn-back:hover { background: #e5e7eb; }
+
+        .btn-pay { background: var(--rose); color: white; }
+        .btn-pay:hover {
+            background: #d63050;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233,69,96,0.3);
+        }
+
+        /* ===== SUCCESS MODAL ===== */
+        .success-modal {
+            text-align: center;
+            padding: 40px 32px;
+            max-width: 440px;
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(16,185,129,0.3);
+            animation: successBounce 0.6s ease;
+        }
+
+        @keyframes successBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .success-modal h2 { font-size: 22px; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+        .success-modal p { font-size: 14px; color: #6b7280; margin-bottom: 20px; line-height: 1.6; }
+
+        .order-id-box {
+            background: #f0fdf4;
+            border: 2px dashed #10b981;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 20px;
+        }
+
+        .order-id-box .label {
+            font-size: 11px;
+            color: #059669;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .order-id-box .value {
+            font-size: 18px;
+            font-weight: 800;
+            color: #059669;
+            font-family: 'Courier New', monospace;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .success-actions button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .fh-hero { height: auto; padding: 60px 0; }
@@ -1381,6 +1912,9 @@
             .newsletter-form { flex-direction: column; }
             .insta-grid { grid-template-columns: repeat(2, 1fr); }
             .promo-card { padding: 40px 30px; }
+            .cart-drawer { width: 100vw; right: -100vw; }
+            .checkout-grid { grid-template-columns: 1fr; }
+            .payment-options { grid-template-columns: 1fr; }
         }
 
         /* ===== SCROLL ANIMATIONS ===== */
@@ -1392,701 +1926,6 @@
 
         .fh-reveal.visible { opacity: 1; transform: translateY(0); }
     </style>
-
-<style>
-/* ===== CART SYSTEM ===== */
-.cart-icon-wrapper {
-    position: relative;
-    cursor: pointer;
-}
-
-.cart-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: var(--rose, #e94560);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    min-width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 5px;
-    box-shadow: 0 2px 8px rgba(233,69,96,0.4);
-    transition: all 0.3s;
-}
-
-.cart-badge.pulse {
-    animation: cartPulse 0.5s ease;
-}
-
-@keyframes cartPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-}
-
-/* CART OVERLAY */
-.cart-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(4px);
-    z-index: 998;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
-}
-
-.cart-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* CART DRAWER */
-.cart-drawer {
-    position: fixed;
-    top: 0;
-    right: -450px;
-    width: 420px;
-    max-width: 100vw;
-    height: 100vh;
-    background: white;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 40px rgba(0,0,0,0.15);
-}
-
-.cart-drawer.active {
-    right: 0;
-}
-
-.cart-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--border, #e5e7eb);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.cart-header h3 {
-    font-size: 18px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.cart-header h3 .count {
-    background: var(--rose, #e94560);
-    color: white;
-    font-size: 12px;
-    padding: 2px 10px;
-    border-radius: 12px;
-}
-
-.cart-close {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: #f3f4f6;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    transition: all 0.2s;
-    color: #4b5563;
-}
-
-.cart-close:hover {
-    background: #dc2626;
-    color: white;
-    transform: rotate(90deg);
-}
-
-/* CART ITEMS */
-.cart-items {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px 24px;
-}
-
-.cart-items::-webkit-scrollbar { width: 6px; }
-.cart-items::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
-
-.cart-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: #9ca3af;
-}
-
-.cart-empty i {
-    font-size: 64px;
-    margin-bottom: 16px;
-    color: #d1d5db;
-}
-
-.cart-empty h4 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #4b5563;
-    margin-bottom: 6px;
-}
-
-.cart-empty p {
-    font-size: 13px;
-}
-
-.cart-item {
-    display: flex;
-    gap: 14px;
-    padding: 16px 0;
-    border-bottom: 1px solid #f3f4f6;
-    animation: cartItemSlide 0.3s ease-out;
-}
-
-@keyframes cartItemSlide {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-.cart-item-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-.cart-item-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.cart-item-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.cart-item-info h4 {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.cart-item-info .brand {
-    font-size: 11.5px;
-    color: #9ca3af;
-    margin-bottom: 8px;
-}
-
-.cart-item-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.cart-qty {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.cart-qty button {
-    width: 28px;
-    height: 28px;
-    border: none;
-    background: #f9fafb;
-    cursor: pointer;
-    font-size: 12px;
-    color: #4b5563;
-    transition: all 0.2s;
-}
-
-.cart-qty button:hover {
-    background: var(--rose, #e94560);
-    color: white;
-}
-
-.cart-qty input {
-    width: 36px;
-    height: 28px;
-    border: none;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    outline: none;
-    background: white;
-    -moz-appearance: textfield;
-}
-
-.cart-qty input::-webkit-outer-spin-button,
-.cart-qty input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.cart-item-price {
-    font-size: 14px;
-    font-weight: 700;
-    color: #1f2937;
-}
-
-.cart-item-remove {
-    background: none;
-    border: none;
-    color: #9ca3af;
-    cursor: pointer;
-    font-size: 13px;
-    padding: 4px;
-    margin-left: 8px;
-    transition: color 0.2s;
-}
-
-.cart-item-remove:hover {
-    color: #dc2626;
-}
-
-/* CART FOOTER */
-.cart-footer {
-    border-top: 1px solid var(--border, #e5e7eb);
-    padding: 20px 24px;
-    background: #fafafa;
-}
-
-.cart-summary {
-    margin-bottom: 16px;
-}
-
-.cart-summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 13.5px;
-    color: #4b5563;
-}
-
-.cart-summary-row.total {
-    border-top: 1px dashed #e5e7eb;
-    margin-top: 8px;
-    padding-top: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #1f2937;
-}
-
-.cart-summary-row.total .amount {
-    color: var(--rose, #e94560);
-}
-
-.cart-checkout-btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--rose, #e94560);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.cart-checkout-btn:hover {
-    background: #d63050;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(233,69,96,0.3);
-}
-
-.cart-checkout-btn:disabled {
-    background: #d1d5db;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-/* ===== CHECKOUT MODAL ===== */
-.checkout-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.checkout-modal-overlay.active {
-    display: flex;
-}
-
-.checkout-modal {
-    background: white;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 640px;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: modalSlide 0.3s ease-out;
-}
-
-@keyframes modalSlide {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.checkout-header {
-    padding: 24px 28px;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 10;
-}
-
-.checkout-header h2 {
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.checkout-body {
-    padding: 24px 28px;
-}
-
-.checkout-section {
-    margin-bottom: 24px;
-}
-
-.checkout-section-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #f3f4f6;
-}
-
-.checkout-section-title i {
-    color: var(--rose, #e94560);
-}
-
-.checkout-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.checkout-field {
-    margin-bottom: 12px;
-}
-
-.checkout-field.full {
-    grid-column: 1 / -1;
-}
-
-.checkout-field label {
-    display: block;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: #4b5563;
-    margin-bottom: 6px;
-}
-
-.checkout-field label .req { color: #dc2626; }
-
-.checkout-field input,
-.checkout-field textarea,
-.checkout-field select {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1.5px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 13.5px;
-    font-family: inherit;
-    outline: none;
-    transition: all 0.2s;
-    background: white;
-}
-
-.checkout-field input:focus,
-.checkout-field textarea:focus,
-.checkout-field select:focus {
-    border-color: var(--rose, #e94560);
-    box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
-}
-
-.checkout-field textarea {
-    resize: vertical;
-    min-height: 70px;
-}
-
-/* PAYMENT OPTIONS */
-.payment-options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.payment-option {
-    padding: 14px 10px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    background: white;
-}
-
-.payment-option:hover {
-    border-color: var(--rose, #e94560);
-}
-
-.payment-option.selected {
-    border-color: var(--rose, #e94560);
-    background: #fef2f4;
-}
-
-.payment-option i {
-    font-size: 22px;
-    color: var(--rose, #e94560);
-    margin-bottom: 6px;
-    display: block;
-}
-
-.payment-option h5 {
-    font-size: 12px;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 2px;
-}
-
-.payment-option p {
-    font-size: 10.5px;
-    color: #6b7280;
-}
-
-/* ORDER SUMMARY IN CHECKOUT */
-.checkout-items {
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 8px 0;
-}
-
-.checkout-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 13px;
-    border-bottom: 1px dashed #f3f4f6;
-}
-
-.checkout-item-name {
-    color: #4b5563;
-    flex: 1;
-}
-
-.checkout-item-qty {
-    color: #9ca3af;
-    margin: 0 12px;
-}
-
-.checkout-item-price {
-    font-weight: 600;
-    color: #1f2937;
-    min-width: 100px;
-    text-align: right;
-}
-
-.checkout-totals {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 2px solid #f3f4f6;
-}
-
-.checkout-totals .row {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    font-size: 13.5px;
-    color: #4b5563;
-}
-
-.checkout-totals .row.grand {
-    font-size: 17px;
-    font-weight: 700;
-    color: #1f2937;
-    padding-top: 10px;
-    margin-top: 8px;
-    border-top: 1px dashed #e5e7eb;
-}
-
-.checkout-totals .row.grand .amount {
-    color: var(--rose, #e94560);
-}
-
-/* CHECKOUT FOOTER */
-.checkout-footer {
-    padding: 20px 28px;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    gap: 10px;
-    position: sticky;
-    bottom: 0;
-    background: white;
-}
-
-.checkout-footer .btn {
-    flex: 1;
-    padding: 13px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-}
-
-.btn-back {
-    background: #f3f4f6;
-    color: #4b5563;
-}
-
-.btn-back:hover { background: #e5e7eb; }
-
-.btn-pay {
-    background: var(--rose, #e94560);
-    color: white;
-}
-
-.btn-pay:hover {
-    background: #d63050;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(233,69,96,0.3);
-}
-
-/* ===== SUCCESS MODAL ===== */
-.success-modal {
-    text-align: center;
-    padding: 40px 32px;
-    max-width: 440px;
-}
-
-.success-icon {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 42px;
-    margin: 0 auto 20px;
-    box-shadow: 0 10px 30px rgba(16,185,129,0.3);
-    animation: successBounce 0.6s ease;
-}
-
-@keyframes successBounce {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-}
-
-.success-modal h2 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 8px;
-}
-
-.success-modal p {
-    font-size: 14px;
-    color: #6b7280;
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
-
-.order-id-box {
-    background: #f0fdf4;
-    border: 2px dashed #10b981;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 20px;
-}
-
-.order-id-box .label {
-    font-size: 11px;
-    color: #059669;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-}
-
-.order-id-box .value {
-    font-size: 18px;
-    font-weight: 800;
-    color: #059669;
-    font-family: 'Courier New', monospace;
-}
-
-.success-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.success-actions button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-}
-
-/* RESPONSIVE */
-@media (max-width: 640px) {
-    .cart-drawer { width: 100vw; right: -100vw; }
-    .checkout-grid { grid-template-columns: 1fr; }
-    .payment-options { grid-template-columns: 1fr; }
-}
-</style>
-    
-
-
-
 </head>
 <body>
 
@@ -2151,9 +1990,10 @@
             <div class="fh-nav-actions">
                 <button class="fh-nav-action-btn" title="Akun"><i class="far fa-user"></i></button>
                 <button class="fh-nav-action-btn" title="Wishlist"><i class="far fa-heart"></i></button>
-                <button class="fh-nav-action-btn" title="Keranjang">
+                <!-- ✅ PERBAIKAN: Icon keranjang terintegrasi dengan openCart() -->
+                <button class="fh-nav-action-btn" title="Keranjang" onclick="openCart()">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">3</span>
+                    <span class="cart-count" id="cartCount">0</span>
                 </button>
             </div>
         </div>
@@ -2220,31 +2060,19 @@
         <div class="trust-bar-inner">
             <div class="trust-item">
                 <div class="trust-icon"><i class="fas fa-truck-fast"></i></div>
-                <div class="trust-text">
-                    <h4>Gratis Ongkir</h4>
-                    <p>Min. belanja Rp150rb</p>
-                </div>
+                <div class="trust-text"><h4>Gratis Ongkir</h4><p>Min. belanja Rp150rb</p></div>
             </div>
             <div class="trust-item">
                 <div class="trust-icon"><i class="fas fa-rotate-left"></i></div>
-                <div class="trust-text">
-                    <h4>30 Hari Return</h4>
-                    <p>Garansi uang kembali</p>
-                </div>
+                <div class="trust-text"><h4>30 Hari Return</h4><p>Garansi uang kembali</p></div>
             </div>
             <div class="trust-item">
                 <div class="trust-icon"><i class="fas fa-shield-halved"></i></div>
-                <div class="trust-text">
-                    <h4>100% Original</h4>
-                    <p>Produk asli bergaransi</p>
-                </div>
+                <div class="trust-text"><h4>100% Original</h4><p>Produk asli bergaransi</p></div>
             </div>
             <div class="trust-item">
                 <div class="trust-icon"><i class="fas fa-headset"></i></div>
-                <div class="trust-text">
-                    <h4>Support 24/7</h4>
-                    <p>Siap bantu kapan saja</p>
-                </div>
+                <div class="trust-text"><h4>Support 24/7</h4><p>Siap bantu kapan saja</p></div>
             </div>
         </div>
     </section>
@@ -2259,34 +2087,22 @@
             </div>
             <div class="categories-grid">
                 <a href="#produk" class="category-card fh-reveal" id="kategori-dress" onclick="filterProducts('Semua')">
-                    <div class="category-icon">👗</div>
-                    <h3>Dress</h3>
-                    <p>1,240 produk</p>
+                    <div class="category-icon">👗</div><h3>Dress</h3><p>1,240 produk</p>
                 </a>
                 <a href="#produk" class="category-card fh-reveal" onclick="filterProducts('Pria')">
-                    <div class="category-icon">👔</div>
-                    <h3>Kemeja</h3>
-                    <p>856 produk</p>
+                    <div class="category-icon">👔</div><h3>Kemeja</h3><p>856 produk</p>
                 </a>
                 <a href="#produk" class="category-card fh-reveal" id="kategori-tas" onclick="filterProducts('Aksesoris')">
-                    <div class="category-icon">👜</div>
-                    <h3>Tas</h3>
-                    <p>2,100 produk</p>
+                    <div class="category-icon">👜</div><h3>Tas</h3><p>2,100 produk</p>
                 </a>
                 <a href="#produk" class="category-card fh-reveal" id="kategori-sepatu" onclick="filterProducts('Sepatu')">
-                    <div class="category-icon">👟</div>
-                    <h3>Sepatu</h3>
-                    <p>1,780 produk</p>
+                    <div class="category-icon">👟</div><h3>Sepatu</h3><p>1,780 produk</p>
                 </a>
                 <a href="#produk" class="category-card fh-reveal" id="kategori-jaket" onclick="filterProducts('Semua')">
-                    <div class="category-icon">🧥</div>
-                    <h3>Jaket</h3>
-                    <p>650 produk</p>
+                    <div class="category-icon">🧥</div><h3>Jaket</h3><p>650 produk</p>
                 </a>
                 <a href="#produk" class="category-card fh-reveal" id="kategori-aksesoris" onclick="filterProducts('Aksesoris')">
-                    <div class="category-icon">💍</div>
-                    <h3>Aksesoris</h3>
-                    <p>3,200 produk</p>
+                    <div class="category-icon">💍</div><h3>Aksesoris</h3><p>3,200 produk</p>
                 </a>
             </div>
         </div>
@@ -2308,7 +2124,8 @@
                 <button class="product-tab" onclick="filterProducts('Sepatu')">Sepatu</button>
             </div>
             <div class="products-grid" id="productsGrid">
-                <div class="product-card fh-reveal" data-category="Wanita">
+                <!-- ✅ PERBAIKAN: Setiap product card diberi data-id, data-price, data-brand -->
+                <div class="product-card fh-reveal" data-category="Wanita" data-id="1" data-price="179000" data-brand="Zalina Official">
                     <div class="product-image">
                         <div class="product-image-bg">👗</div>
                         <span class="product-badge sale">-40%</span>
@@ -2322,9 +2139,7 @@
                         <div class="product-brand">Zalina Official</div>
                         <h3 class="product-name">Floral Summer Dress Elegant</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                             <span>(128)</span>
                         </div>
                         <div class="product-price">
@@ -2334,7 +2149,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Pria">
+                <div class="product-card fh-reveal" data-category="Pria" data-id="2" data-price="249000" data-brand="Urban Mens Co.">
                     <div class="product-image">
                         <div class="product-image-bg">👔</div>
                         <span class="product-badge new">Baru</span>
@@ -2348,9 +2163,7 @@
                         <div class="product-brand">Urban Mens Co.</div>
                         <h3 class="product-name">Slim Fit Oxford Premium Shirt</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
                             <span>(89)</span>
                         </div>
                         <div class="product-price">
@@ -2358,7 +2171,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Aksesoris">
+                <div class="product-card fh-reveal" data-category="Aksesoris" data-id="3" data-price="389000" data-brand="Luxoria Bags">
                     <div class="product-image">
                         <div class="product-image-bg">👜</div>
                         <span class="product-badge hot">Hot</span>
@@ -2372,9 +2185,7 @@
                         <div class="product-brand">Luxoria Bags</div>
                         <h3 class="product-name">Leather Tote Bag Premium</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                             <span>(256)</span>
                         </div>
                         <div class="product-price">
@@ -2384,7 +2195,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Sepatu">
+                <div class="product-card fh-reveal" data-category="Sepatu" data-id="4" data-price="459000" data-brand="StepUp Sneakers">
                     <div class="product-image">
                         <div class="product-image-bg">👟</div>
                         <div class="product-actions">
@@ -2397,9 +2208,7 @@
                         <div class="product-brand">StepUp Sneakers</div>
                         <h3 class="product-name">Classic White Sneakers Unisex</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
                             <span>(67)</span>
                         </div>
                         <div class="product-price">
@@ -2407,7 +2216,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Pria">
+                <div class="product-card fh-reveal" data-category="Pria" data-id="5" data-price="259000" data-brand="OuterSpace ID">
                     <div class="product-image">
                         <div class="product-image-bg">🧥</div>
                         <span class="product-badge sale">-35%</span>
@@ -2421,9 +2230,7 @@
                         <div class="product-brand">OuterSpace ID</div>
                         <h3 class="product-name">Oversized Denim Jacket Vintage</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                             <span>(194)</span>
                         </div>
                         <div class="product-price">
@@ -2433,7 +2240,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Sepatu">
+                <div class="product-card fh-reveal" data-category="Sepatu" data-id="6" data-price="329000" data-brand="HeelQueen">
                     <div class="product-image">
                         <div class="product-image-bg">👠</div>
                         <span class="product-badge new">Baru</span>
@@ -2447,9 +2254,7 @@
                         <div class="product-brand">HeelQueen</div>
                         <h3 class="product-name">Pointed Stiletto Heels Premium</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
                             <span>(42)</span>
                         </div>
                         <div class="product-price">
@@ -2457,7 +2262,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Aksesoris">
+                <div class="product-card fh-reveal" data-category="Aksesoris" data-id="7" data-price="599000" data-brand="TimeKeeper Co.">
                     <div class="product-image">
                         <div class="product-image-bg">⌚</div>
                         <span class="product-badge hot">Hot</span>
@@ -2471,9 +2276,7 @@
                         <div class="product-brand">TimeKeeper Co.</div>
                         <h3 class="product-name">Minimalist Analog Watch Gold</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                             <span>(312)</span>
                         </div>
                         <div class="product-price">
@@ -2483,7 +2286,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card fh-reveal" data-category="Aksesoris">
+                <div class="product-card fh-reveal" data-category="Aksesoris" data-id="8" data-price="129000" data-brand="CapStreet ID">
                     <div class="product-image">
                         <div class="product-image-bg">🧢</div>
                         <div class="product-actions">
@@ -2496,9 +2299,7 @@
                         <div class="product-brand">CapStreet ID</div>
                         <h3 class="product-name">Snapback Cap Limited Edition</h3>
                         <div class="product-rating">
-                            <div class="product-stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                            </div>
+                            <div class="product-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
                             <span>(78)</span>
                         </div>
                         <div class="product-price">
@@ -2587,71 +2388,47 @@
             <div class="reviews-grid">
                 <div class="review-card fh-reveal">
                     <div class="review-header">
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                         <div class="review-verified"><i class="fas fa-circle-check"></i> Verified</div>
                     </div>
                     <blockquote>"Kualitas bahannya luar biasa! Dress-nya nyaman banget dipakai dan ukurannya pas. Pengiriman juga cepat, cuma 2 hari sampai. Pasti repeat order!"</blockquote>
                     <div class="review-product">
                         <div class="review-product-img">👗</div>
-                        <div class="review-product-info">
-                            <h4>Floral Summer Dress</h4>
-                            <p>Zalina Official</p>
-                        </div>
+                        <div class="review-product-info"><h4>Floral Summer Dress</h4><p>Zalina Official</p></div>
                     </div>
                     <div class="review-author">
                         <div class="review-avatar">DA</div>
-                        <div class="review-author-info">
-                            <h4>Dinda Ayu</h4>
-                            <p>Jakarta • 3 hari lalu</p>
-                        </div>
+                        <div class="review-author-info"><h4>Dinda Ayu</h4><p>Jakarta • 3 hari lalu</p></div>
                     </div>
                 </div>
                 <div class="review-card fh-reveal">
                     <div class="review-header">
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                         <div class="review-verified"><i class="fas fa-circle-check"></i> Verified</div>
                     </div>
                     <blockquote>"Sepatu sneakers-nya keren banget, cocok buat daily use. Packaging-nya juga rapi dan premium. Worth every penny! Recommended seller."</blockquote>
                     <div class="review-product">
                         <div class="review-product-img">👟</div>
-                        <div class="review-product-info">
-                            <h4>Classic White Sneakers</h4>
-                            <p>StepUp Sneakers</p>
-                        </div>
+                        <div class="review-product-info"><h4>Classic White Sneakers</h4><p>StepUp Sneakers</p></div>
                     </div>
                     <div class="review-author">
                         <div class="review-avatar">BR</div>
-                        <div class="review-author-info">
-                            <h4>Budi Raharjo</h4>
-                            <p>Surabaya • 1 minggu lalu</p>
-                        </div>
+                        <div class="review-author-info"><h4>Budi Raharjo</h4><p>Surabaya • 1 minggu lalu</p></div>
                     </div>
                 </div>
                 <div class="review-card fh-reveal">
                     <div class="review-header">
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
-                        </div>
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
                         <div class="review-verified"><i class="fas fa-circle-check"></i> Verified</div>
                     </div>
                     <blockquote>"Tas-nya cantik banget, bahannya tebal dan jahitannya rapi. Muat banyak barang juga. Customer service-nya juga sangat helpful dan ramah!"</blockquote>
                     <div class="review-product">
                         <div class="review-product-img">👜</div>
-                        <div class="review-product-info">
-                            <h4>Leather Tote Bag</h4>
-                            <p>Luxoria Bags</p>
-                        </div>
+                        <div class="review-product-info"><h4>Leather Tote Bag</h4><p>Luxoria Bags</p></div>
                     </div>
                     <div class="review-author">
                         <div class="review-avatar">SM</div>
-                        <div class="review-author-info">
-                            <h4>Sarah Maharani</h4>
-                            <p>Bandung • 2 minggu lalu</p>
-                        </div>
+                        <div class="review-author-info"><h4>Sarah Maharani</h4><p>Bandung • 2 minggu lalu</p></div>
                     </div>
                 </div>
             </div>
@@ -2679,30 +2456,12 @@
             <h2 class="fh-section-title">Follow Kami di Instagram</h2>
         </div>
         <div class="insta-grid">
-            <div class="insta-item">
-                <div class="insta-item-bg">👗</div>
-                <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-            </div>
-            <div class="insta-item">
-                <div class="insta-item-bg">👔</div>
-                <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-            </div>
-            <div class="insta-item">
-                <div class="insta-item-bg">👜</div>
-                <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-            </div>
-            <div class="insta-item">
-                <div class="insta-item-bg">👟</div>
-                <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-            </div>
-            <div class="insta-item">
-                <div class="insta-item-bg">🧥</div>
-                <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-            </div>
-            <div class="insta-item">
-                <div class="insta-item-bg">⌚</div>
-                <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-            </div>
+            <div class="insta-item"><div class="insta-item-bg">👗</div><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+            <div class="insta-item"><div class="insta-item-bg">👔</div><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+            <div class="insta-item"><div class="insta-item-bg">👜</div><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+            <div class="insta-item"><div class="insta-item-bg">👟</div><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+            <div class="insta-item"><div class="insta-item-bg">🧥</div><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
+            <div class="insta-item"><div class="insta-item-bg">⌚</div><div class="insta-overlay"><i class="fab fa-instagram"></i></div></div>
         </div>
     </section>
 
@@ -2724,34 +2483,22 @@
                 <div class="fh-footer-col">
                     <h4>Belanja</h4>
                     <ul>
-                        <li><a href="#produk">Wanita</a></li>
-                        <li><a href="#produk">Pria</a></li>
-                        <li><a href="#kategori-aksesoris">Aksesoris</a></li>
-                        <li><a href="#kategori-sepatu">Sepatu</a></li>
-                        <li><a href="#kategori-tas">Tas</a></li>
-                        <li><a href="#promo">Sale</a></li>
+                        <li><a href="#produk">Wanita</a></li><li><a href="#produk">Pria</a></li><li><a href="#kategori-aksesoris">Aksesoris</a></li>
+                        <li><a href="#kategori-sepatu">Sepatu</a></li><li><a href="#kategori-tas">Tas</a></li><li><a href="#promo">Sale</a></li>
                     </ul>
                 </div>
                 <div class="fh-footer-col">
                     <h4>Bantuan</h4>
                     <ul>
-                        <li><a href="#reviews">FAQ</a></li>
-                        <li><a href="#produk">Cara Belanja</a></li>
-                        <li><a href="#layanan">Pengiriman</a></li>
-                        <li><a href="#layanan">Pengembalian</a></li>
-                        <li><a href="#footer">Lacak Pesanan</a></li>
-                        <li><a href="#footer">Hubungi Kami</a></li>
+                        <li><a href="#reviews">FAQ</a></li><li><a href="#produk">Cara Belanja</a></li><li><a href="#layanan">Pengiriman</a></li>
+                        <li><a href="#layanan">Pengembalian</a></li><li><a href="#footer">Lacak Pesanan</a></li><li><a href="#footer">Hubungi Kami</a></li>
                     </ul>
                 </div>
                 <div class="fh-footer-col">
                     <h4>Perusahaan</h4>
                     <ul>
-                        <li><a href="#beranda">Tentang Kami</a></li>
-                        <li><a href="#footer">Karir</a></li>
-                        <li><a href="#reviews">Blog Fashion</a></li>
-                        <li><a href="#footer">Press</a></li>
-                        <li><a href="#footer">Kebijakan Privasi</a></li>
-                        <li><a href="#footer">Syarat & Ketentuan</a></li>
+                        <li><a href="#beranda">Tentang Kami</a></li><li><a href="#footer">Karir</a></li><li><a href="#reviews">Blog Fashion</a></li>
+                        <li><a href="#footer">Press</a></li><li><a href="#footer">Kebijakan Privasi</a></li><li><a href="#footer">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>
                 <div class="fh-footer-col fh-footer-newsletter">
@@ -2764,14 +2511,10 @@
                     <div class="fh-footer-payment">
                         <h4>Metode Pembayaran</h4>
                         <div class="payment-icons">
-                            <span class="payment-icon">VISA</span>
-                            <span class="payment-icon">Mastercard</span>
-                            <span class="payment-icon">BCA</span>
-                            <span class="payment-icon">Mandiri</span>
-                            <span class="payment-icon">GoPay</span>
-                            <span class="payment-icon">OVO</span>
-                            <span class="payment-icon">DANA</span>
-                            <span class="payment-icon">QRIS</span>
+                            <span class="payment-icon">VISA</span><span class="payment-icon">Mastercard</span>
+                            <span class="payment-icon">BCA</span><span class="payment-icon">Mandiri</span>
+                            <span class="payment-icon">GoPay</span><span class="payment-icon">OVO</span>
+                            <span class="payment-icon">DANA</span><span class="payment-icon">QRIS</span>
                         </div>
                     </div>
                 </div>
@@ -2784,433 +2527,151 @@
     </footer>
 
     <!-- Floating Buttons -->
-    <a href="https://wa.me/6281234567890" class="wa-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <a href="https://wa.me/6281234567890" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="#beranda" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
 
-    <a href="#beranda" class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </a>
+    <!-- ===== CART DRAWER ===== -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> Keranjang <span class="count" id="cartDrawerCount">0</span></h3>
+            <button class="cart-close" onclick="closeCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-summary">
+                <div class="cart-summary-row"><span>Subtotal</span><span id="cartSubtotal">Rp 0</span></div>
+                <div class="cart-summary-row"><span>Ongkos Kirim</span><span id="cartShipping">Rp 15.000</span></div>
+                <div class="cart-summary-row total"><span>Total</span><span class="amount" id="cartTotal">Rp 0</span></div>
+            </div>
+            <button class="cart-checkout-btn" onclick="openCheckout()">
+                <i class="fas fa-lock"></i> Checkout Sekarang
+            </button>
+        </div>
+    </aside>
 
-    <script>
-        // Navbar scroll effect
-        const fhNavbar = document.getElementById('fhNavbar');
-        const backToTop = document.getElementById('backToTop');
+    <!-- ===== CHECKOUT MODAL ===== -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+        <div class="checkout-modal">
+            <div class="checkout-header">
+                <h2><i class="fas fa-credit-card" style="color:var(--rose);"></i> Checkout</h2>
+                <button class="cart-close" onclick="closeCheckout()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="checkout-body">
+                <div class="checkout-section">
+                    <div class="checkout-section-title"><i class="fas fa-user"></i> Data Pembeli</div>
+                    <div class="checkout-grid">
+                        <div class="checkout-field"><label>Nama Lengkap <span class="req">*</span></label><input type="text" id="coName" placeholder="Nama sesuai KTP"></div>
+                        <div class="checkout-field"><label>No. HP / WhatsApp <span class="req">*</span></label><input type="tel" id="coPhone" placeholder="08xxxxxxxxxx"></div>
+                        <div class="checkout-field full"><label>Email <span class="req">*</span></label><input type="email" id="coEmail" placeholder="email@contoh.com"></div>
+                    </div>
+                </div>
+                <div class="checkout-section">
+                    <div class="checkout-section-title"><i class="fas fa-map-marker-alt"></i> Alamat Pengiriman</div>
+                    <div class="checkout-grid">
+                        <div class="checkout-field full"><label>Alamat Lengkap <span class="req">*</span></label><textarea id="coAddress" placeholder="Jalan, No. Rumah, RT/RW, Kelurahan"></textarea></div>
+                        <div class="checkout-field"><label>Kota <span class="req">*</span></label><input type="text" id="coCity" placeholder="Contoh: Jakarta Selatan"></div>
+                        <div class="checkout-field"><label>Kode Pos <span class="req">*</span></label><input type="text" id="coPostal" placeholder="12345" maxlength="5"></div>
+                    </div>
+                </div>
+                <div class="checkout-section">
+                    <div class="checkout-section-title"><i class="fas fa-wallet"></i> Metode Pembayaran</div>
+                    <div class="payment-options" id="paymentOptions">
+                        <div class="payment-option selected" data-method="transfer"><i class="fas fa-university"></i><h5>Transfer Bank</h5><p>BCA, Mandiri, BNI</p></div>
+                        <div class="payment-option" data-method="ewallet"><i class="fas fa-mobile-screen"></i><h5>E-Wallet</h5><p>GoPay, OVO, Dana</p></div>
+                        <div class="payment-option" data-method="cod"><i class="fas fa-money-bill-wave"></i><h5>COD</h5><p>Bayar di Tempat</p></div>
+                    </div>
+                </div>
+                <div class="checkout-section">
+                    <div class="checkout-section-title"><i class="fas fa-sticky-note"></i> Catatan (Opsional)</div>
+                    <div class="checkout-field"><textarea id="coNotes" placeholder="Contoh: Tolong kirim sebelum jam 5 sore, dll..."></textarea></div>
+                </div>
+                <div class="checkout-section">
+                    <div class="checkout-section-title"><i class="fas fa-receipt"></i> Ringkasan Pesanan</div>
+                    <div class="checkout-items" id="checkoutItems"></div>
+                    <div class="checkout-totals">
+                        <div class="row"><span>Subtotal</span><span id="coSubtotal">Rp 0</span></div>
+                        <div class="row"><span>Ongkos Kirim</span><span id="coShippingText">Rp 15.000</span></div>
+                        <div class="row grand"><span>Total Bayar</span><span class="amount" id="coTotal">Rp 0</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkout-footer">
+                <button class="btn btn-back" onclick="closeCheckout()"><i class="fas fa-arrow-left"></i> Kembali</button>
+                <button class="btn btn-pay" onclick="processCheckout()"><i class="fab fa-whatsapp"></i> Kirim Pesanan via WhatsApp</button>
+            </div>
+        </div>
+    </div>
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                fhNavbar.classList.add('scrolled');
-                backToTop.classList.add('visible');
-            } else {
-                fhNavbar.classList.remove('scrolled');
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        // Product Filter Function
-        function filterProducts(category) {
-            // Update active tab
-            document.querySelectorAll('.product-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.textContent.trim() === category) {
-                    tab.classList.add('active');
-                }
-            });
-
-            // Filter product cards
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                if (category === 'Semua' || cardCategory === category) {
-                    card.style.display = 'block';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 50);
-                } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
-                }
-            });
-        }
-
-        // Product tabs click
-        document.querySelectorAll('.product-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                filterProducts(tab.textContent.trim());
-            });
-        });
-
-        // Scroll reveal
-        const revealEls = document.querySelectorAll('.fh-reveal');
-        const revealObs = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-        revealEls.forEach(el => revealObs.observe(el));
-
-        // Wishlist toggle
-        document.querySelectorAll('.product-action-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const icon = this.querySelector('i');
-                if (icon.classList.contains('far')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    this.style.background = 'var(--rose)';
-                    this.style.color = 'white';
-                } else if (icon.classList.contains('fa-heart')) {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    this.style.background = 'white';
-                    this.style.color = 'var(--gray-600)';
-                }
-            });
-        });
-
-        // Smooth scroll for all anchor links (already handled by CSS scroll-behavior, but add offset)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const target = document.querySelector(targetId);
-                if (target) {
-                    e.preventDefault();
-                    const offset = 90; // Navbar height
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+    <!-- ===== SUCCESS MODAL ===== -->
+    <div class="checkout-modal-overlay" id="successModal">
+        <div class="checkout-modal success-modal">
+            <div class="success-icon"><i class="fas fa-check"></i></div>
+            <h2>Pesanan Berhasil! 🎉</h2>
+            <p>Terima kasih telah berbelanja di FashionHub. Pesanan Anda sedang kami proses.</p>
+            <div class="order-id-box">
+                <div class="label">Nomor Pesanan</div>
+                <div class="value" id="orderId">FH-00000000</div>
+            </div>
+            <p style="font-size:12.5px;">Klik tombol di bawah untuk mengirim detail pesanan via WhatsApp ke admin kami.</p>
+            <div class="success-actions" id="successActions">
+                <button onclick="copyOrderId()" style="background:#f3f4f6;color:#4b5563;"><i class="fas fa-copy"></i> Salin Order ID</button>
+                <button onclick="closeSuccess()" style="background:var(--rose);color:white;">Lanjut Belanja</button>
+            </div>
+        </div>
+    </div>
 
 <script>
-    // ===== LOAD DATA DARI ADMIN PANEL (dengan support foto & deskripsi) =====
-    function loadFromAdmin() {
-        const categories = JSON.parse(localStorage.getItem('fh_categories'));
-        const products = JSON.parse(localStorage.getItem('fh_products'));
-        const trending = JSON.parse(localStorage.getItem('fh_trending'));
+// =============================================
+// ✅ FASHIONHUB - COMPLETE CART & CHECKOUT SYSTEM
+// =============================================
 
-        // Helper: render media (foto atau emoji)
-        function renderMedia(item, fontSize = '60px') {
-            if (item.imageType === 'image' && item.image) {
-                return `<img src="${item.image}" alt="${item.name || ''}" style="width:100%;height:100%;object-fit:cover;">`;
-            }
-            return item.icon || '📷';
-        }
-
-        // ===== UPDATE CATEGORIES =====
-        if (categories && categories.length > 0) {
-            const grid = document.querySelector('.categories-grid');
-            if (grid) {
-                grid.innerHTML = categories.map(c => `
-                    <a href="#produk" class="category-card fh-reveal visible">
-                        <div class="category-icon" style="background:${c.imageType !== 'image' ? (c.color || '#fce4ec') : '#f3f4f6'};overflow:hidden;">
-                            ${renderMedia(c, '28px')}
-                        </div>
-                        <h3>${c.name}</h3>
-                        <p>${c.count.toLocaleString('id-ID')} produk</p>
-                    </a>
-                `).join('');
-            }
-        }
-
-        // ===== UPDATE PRODUCTS =====
-        if (products && products.length > 0) {
-            const grid = document.getElementById('productsGrid');
-            if (grid) {
-                grid.innerHTML = products.map(p => {
-                    const discount = p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
-                    const badgeHTML = p.badge ? `<span class="product-badge ${p.badge}">${p.badge === 'sale' ? `-${discount}%` : p.badge === 'new' ? 'Baru' : 'Hot'}</span>` : '';
-                    const starsHTML = generateStars(p.rating);
-                    
-                    const mediaHTML = (p.imageType === 'image' && p.image)
-                        ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`
-                        : p.icon || '📷';
-
-                    const descHTML = p.description 
-                        ? `<p style="font-size:12px;color:var(--gray-500);margin-bottom:10px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.description}</p>`
-                        : '';
-                    
-                    return `
-                        <div class="product-card fh-reveal visible" data-category="${p.category}">
-                            <div class="product-image">
-                                <div class="product-image-bg">${mediaHTML}</div>
-                                ${badgeHTML}
-                                <div class="product-actions">
-                                    <button class="product-action-btn"><i class="far fa-heart"></i></button>
-                                    <button class="product-action-btn"><i class="fas fa-eye"></i></button>
-                                </div>
-                                <button class="product-quick-add"><i class="fas fa-shopping-bag"></i> Tambah ke Keranjang</button>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-brand">${p.brand || '-'}</div>
-                                <h3 class="product-name">${p.name}</h3>
-                                ${descHTML}
-                                <div class="product-rating">
-                                    <div class="product-stars">${starsHTML}</div>
-                                    <span>(${p.reviews})</span>
-                                </div>
-                                <div class="product-price">
-                                    <span class="current">Rp ${p.price.toLocaleString('id-ID')}</span>
-                                    ${p.originalPrice ? `<span class="original">Rp ${p.originalPrice.toLocaleString('id-ID')}</span>` : ''}
-                                    ${discount ? `<span class="discount">-${discount}%</span>` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                document.querySelectorAll('.product-action-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const icon = this.querySelector('i');
-                        if (icon.classList.contains('far')) {
-                            icon.classList.remove('far');
-                            icon.classList.add('fas');
-                            this.style.background = 'var(--rose)';
-                            this.style.color = 'white';
-                        } else if (icon.classList.contains('fa-heart')) {
-                            icon.classList.remove('fas');
-                            icon.classList.add('far');
-                            this.style.background = 'white';
-                            this.style.color = 'var(--gray-600)';
-                        }
-                    });
-                });
-            }
-        }
-
-        // ===== UPDATE TRENDING =====
-        if (trending) {
-            const mainCard = document.querySelector('.trending-main');
-            if (mainCard && trending.main) {
-                const m = trending.main;
-                const mainIcon = mainCard.querySelector('.trending-main-icon');
-                if (m.imageType === 'image' && m.image) {
-                    mainIcon.innerHTML = `<img src="${m.image}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;opacity:0.3;">`;
-                } else {
-                    mainIcon.textContent = m.icon || '👗';
-                }
-                mainCard.querySelector('.fh-section-tag').textContent = m.tag || '';
-                mainCard.querySelector('h2').textContent = m.title;
-                mainCard.querySelector('p').textContent = m.desc || '';
-            }
-
-            const sideCards = document.querySelectorAll('.trending-side');
-            if (sideCards.length >= 2) {
-                [trending.side1, trending.side2].forEach((s, idx) => {
-                    if (!s) return;
-                    const card = sideCards[idx];
-                    const imgEl = card.querySelector('.trending-side-image');
-                    if (s.imageType === 'image' && s.image) {
-                        imgEl.innerHTML = `<img src="${s.image}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`;
-                    } else {
-                        imgEl.textContent = s.icon || '📷';
-                    }
-                    card.querySelector('h3').textContent = s.title;
-                    card.querySelector('p').textContent = s.desc || '';
-                    const priceEl = card.querySelector('.product-price');
-                    if (priceEl) {
-                        priceEl.innerHTML = `
-                            <span class="current">Rp ${s.price ? s.price.toLocaleString('id-ID') : '0'}</span>
-                            ${s.originalPrice ? `<span class="original">Rp ${s.originalPrice.toLocaleString('id-ID')}</span>` : ''}
-                        `;
-                    }
-                });
-            }
-        }
-    }
-
-    function generateStars(rating) {
-        let html = '';
-        const full = Math.floor(rating);
-        const half = rating % 1 >= 0.5;
-        for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
-        if (half) html += '<i class="fas fa-star-half-stroke"></i>';
-        const empty = 5 - full - (half ? 1 : 0);
-        for (let i = 0; i < empty; i++) html += '<i class="far fa-star"></i>';
-        return html;
-    }
-
-    loadFromAdmin();
-
-    window.addEventListener('storage', (e) => {
-        if (['fh_categories', 'fh_products', 'fh_trending'].includes(e.key)) {
-            loadFromAdmin();
-        }
-    });
-</script>  
-
-<!-- GANTI icon keranjang di navbar Anda dengan ini -->
-<div class="cart-icon-wrapper" onclick="openCart()">
-    <i class="fas fa-shopping-bag"></i>
-    <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
-</div>
-
-<!-- ===== CART DRAWER ===== -->
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-<aside class="cart-drawer" id="cartDrawer">
-    <div class="cart-header">
-        <h3><i class="fas fa-shopping-bag"></i> Keranjang <span class="count" id="cartCount">0</span></h3>
-        <button class="cart-close" onclick="closeCart()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="cart-items" id="cartItems">
-        <!-- Cart items akan di-render di sini -->
-    </div>
-    <div class="cart-footer" id="cartFooter" style="display:none;">
-        <div class="cart-summary">
-            <div class="cart-summary-row">
-                <span>Subtotal</span>
-                <span id="cartSubtotal">Rp 0</span>
-            </div>
-            <div class="cart-summary-row">
-                <span>Ongkos Kirim</span>
-                <span id="cartShipping">Rp 15.000</span>
-            </div>
-            <div class="cart-summary-row total">
-                <span>Total</span>
-                <span class="amount" id="cartTotal">Rp 0</span>
-            </div>
-        </div>
-        <button class="cart-checkout-btn" onclick="openCheckout()">
-            <i class="fas fa-lock"></i> Checkout Sekarang
-        </button>
-    </div>
-</aside>
-
-<!-- ===== CHECKOUT MODAL ===== -->
-<div class="checkout-modal-overlay" id="checkoutModal">
-    <div class="checkout-modal">
-        <div class="checkout-header">
-            <h2><i class="fas fa-credit-card" style="color:var(--rose);"></i> Checkout</h2>
-            <button class="cart-close" onclick="closeCheckout()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="checkout-body">
-            <!-- DATA PEMBELI -->
-            <div class="checkout-section">
-                <div class="checkout-section-title"><i class="fas fa-user"></i> Data Pembeli</div>
-                <div class="checkout-grid">
-                    <div class="checkout-field">
-                        <label>Nama Lengkap <span class="req">*</span></label>
-                        <input type="text" id="coName" placeholder="Nama sesuai KTP">
-                    </div>
-                    <div class="checkout-field">
-                        <label>No. HP / WhatsApp <span class="req">*</span></label>
-                        <input type="tel" id="coPhone" placeholder="08xxxxxxxxxx">
-                    </div>
-                    <div class="checkout-field full">
-                        <label>Email <span class="req">*</span></label>
-                        <input type="email" id="coEmail" placeholder="email@contoh.com">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ALAMAT PENGIRIMAN -->
-            <div class="checkout-section">
-                <div class="checkout-section-title"><i class="fas fa-map-marker-alt"></i> Alamat Pengiriman</div>
-                <div class="checkout-grid">
-                    <div class="checkout-field full">
-                        <label>Alamat Lengkap <span class="req">*</span></label>
-                        <textarea id="coAddress" placeholder="Jalan, No. Rumah, RT/RW, Kelurahan"></textarea>
-                    </div>
-                    <div class="checkout-field">
-                        <label>Kota <span class="req">*</span></label>
-                        <input type="text" id="coCity" placeholder="Contoh: Jakarta Selatan">
-                    </div>
-                    <div class="checkout-field">
-                        <label>Kode Pos <span class="req">*</span></label>
-                        <input type="text" id="coPostal" placeholder="12345" maxlength="5">
-                    </div>
-                </div>
-            </div>
-
-            <!-- METODE PEMBAYARAN -->
-            <div class="checkout-section">
-                <div class="checkout-section-title"><i class="fas fa-wallet"></i> Metode Pembayaran</div>
-                <div class="payment-options" id="paymentOptions">
-                    <div class="payment-option selected" data-method="transfer">
-                        <i class="fas fa-university"></i>
-                        <h5>Transfer Bank</h5>
-                        <p>BCA, Mandiri, BNI</p>
-                    </div>
-                    <div class="payment-option" data-method="ewallet">
-                        <i class="fas fa-mobile-screen"></i>
-                        <h5>E-Wallet</h5>
-                        <p>GoPay, OVO, Dana</p>
-                    </div>
-                    <div class="payment-option" data-method="cod">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <h5>COD</h5>
-                        <p>Bayar di Tempat</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CATATAN -->
-            <div class="checkout-section">
-                <div class="checkout-section-title"><i class="fas fa-sticky-note"></i> Catatan (Opsional)</div>
-                <div class="checkout-field">
-                    <textarea id="coNotes" placeholder="Contoh: Tolong kirim sebelum jam 5 sore, dll..."></textarea>
-                </div>
-            </div>
-
-            <!-- RINGKASAN PESANAN -->
-            <div class="checkout-section">
-                <div class="checkout-section-title"><i class="fas fa-receipt"></i> Ringkasan Pesanan</div>
-                <div class="checkout-items" id="checkoutItems"></div>
-                <div class="checkout-totals">
-                    <div class="row"><span>Subtotal</span><span id="coSubtotal">Rp 0</span></div>
-                    <div class="row"><span>Ongkos Kirim</span><span>Rp 15.000</span></div>
-                    <div class="row grand"><span>Total Bayar</span><span class="amount" id="coTotal">Rp 0</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="checkout-footer">
-            <button class="btn btn-back" onclick="closeCheckout()"><i class="fas fa-arrow-left"></i> Kembali</button>
-            <button class="btn btn-pay" onclick="processCheckout()"><i class="fas fa-lock"></i> Bayar Sekarang</button>
-        </div>
-    </div>
-</div>
-
-<!-- ===== SUCCESS MODAL ===== -->
-<div class="checkout-modal-overlay" id="successModal">
-    <div class="checkout-modal success-modal">
-        <div class="success-icon"><i class="fas fa-check"></i></div>
-        <h2>Pesanan Berhasil! 🎉</h2>
-        <p>Terima kasih telah berbelanja di FashionHub. Pesanan Anda sedang kami proses.</p>
-        <div class="order-id-box">
-            <div class="label">Nomor Pesanan</div>
-            <div class="value" id="orderId">FH-000000</div>
-        </div>
-        <p style="font-size:12.5px;">Detail pesanan telah dikirim ke email Anda. Tim kami akan menghubungi via WhatsApp untuk konfirmasi.</p>
-        <div class="success-actions">
-            <button onclick="closeSuccess()" style="background:#f3f4f6;color:#4b5563;">Tutup</button>
-            <button onclick="closeSuccess()" style="background:var(--rose);color:white;">Lanjut Belanja</button>
-        </div>
-    </div>
-</div>
-
-<script>
-// ===== CART SYSTEM =====
+// ===== KONFIGURASI =====
 const CART_KEY = 'fh_cart';
+const WA_KEY = 'fh_admin_wa';
 const SHIPPING_COST = 15000;
-let selectedPayment = 'transfer';
+const FREE_SHIPPING_MIN = 500000;
+const ADMIN_WA_DEFAULT = '6281234567890'; // ← Ganti nomor WA admin di sini
 
-// Load cart dari localStorage
-function getCart() {
-    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+let selectedPayment = 'transfer';
+let lastWaUrl = '';
+
+// ===== PRODUK DEFAULT (Fallback jika admin panel belum digunakan) =====
+const DEFAULT_PRODUCTS = [
+    { id: 1, name: 'Floral Summer Dress Elegant', brand: 'Zalina Official', category: 'Wanita', price: 179000, originalPrice: 299000, rating: 5, reviews: 128, badge: 'sale', icon: '👗', imageType: 'emoji' },
+    { id: 2, name: 'Slim Fit Oxford Premium Shirt', brand: 'Urban Mens Co.', category: 'Pria', price: 249000, originalPrice: 0, rating: 4.5, reviews: 89, badge: 'new', icon: '👔', imageType: 'emoji' },
+    { id: 3, name: 'Leather Tote Bag Premium', brand: 'Luxoria Bags', category: 'Aksesoris', price: 389000, originalPrice: 550000, rating: 5, reviews: 256, badge: 'hot', icon: '👜', imageType: 'emoji' },
+    { id: 4, name: 'Classic White Sneakers Unisex', brand: 'StepUp Sneakers', category: 'Sepatu', price: 459000, originalPrice: 0, rating: 4, reviews: 67, badge: '', icon: '👟', imageType: 'emoji' },
+    { id: 5, name: 'Oversized Denim Jacket Vintage', brand: 'OuterSpace ID', category: 'Pria', price: 259000, originalPrice: 399000, rating: 5, reviews: 194, badge: 'sale', icon: '🧥', imageType: 'emoji' },
+    { id: 6, name: 'Pointed Stiletto Heels Premium', brand: 'HeelQueen', category: 'Sepatu', price: 329000, originalPrice: 0, rating: 4.5, reviews: 42, badge: 'new', icon: '👠', imageType: 'emoji' },
+    { id: 7, name: 'Minimalist Analog Watch Gold', brand: 'TimeKeeper Co.', category: 'Aksesoris', price: 599000, originalPrice: 899000, rating: 5, reviews: 312, badge: 'hot', icon: '⌚', imageType: 'emoji' },
+    { id: 8, name: 'Snapback Cap Limited Edition', brand: 'CapStreet ID', category: 'Aksesoris', price: 129000, originalPrice: 0, rating: 4, reviews: 78, badge: '', icon: '🧢', imageType: 'emoji' }
+];
+
+// ===== HELPER FUNCTIONS =====
+function formatRp(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+
+function getAdminWA() { return localStorage.getItem(WA_KEY) || ADMIN_WA_DEFAULT; }
+
+function getAllProducts() {
+    // Prioritaskan data dari admin panel, fallback ke default
+    const adminProducts = JSON.parse(localStorage.getItem('fh_products'));
+    if (adminProducts && adminProducts.length > 0) return adminProducts;
+    return DEFAULT_PRODUCTS;
 }
+
+function findProductById(id) {
+    const products = getAllProducts();
+    return products.find(p => p.id === parseInt(id));
+}
+
+function findProductByName(name) {
+    const products = getAllProducts();
+    return products.find(p => p.name === name);
+}
+
+// ===== CART FUNCTIONS =====
+function getCart() { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
 
 function saveCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
@@ -3218,71 +2679,51 @@ function saveCart(cart) {
     renderCart();
 }
 
-function formatRp(n) {
-    return 'Rp ' + n.toLocaleString('id-ID');
-}
-
-// ===== BADGE =====
 function updateCartBadge() {
     const cart = getCart();
     const totalQty = cart.reduce((s, i) => s + i.qty, 0);
-    const badge = document.getElementById('cartBadge');
-    if (badge) {
+
+    // Update badge di navbar
+    const navbarBadge = document.getElementById('cartCount');
+    if (navbarBadge) {
         if (totalQty > 0) {
-            badge.style.display = 'flex';
-            badge.textContent = totalQty > 99 ? '99+' : totalQty;
-            badge.classList.remove('pulse');
-            void badge.offsetWidth; // trigger reflow
-            badge.classList.add('pulse');
+            navbarBadge.classList.add('visible');
+            navbarBadge.textContent = totalQty > 99 ? '99+' : totalQty;
+            navbarBadge.classList.remove('pulse');
+            void navbarBadge.offsetWidth;
+            navbarBadge.classList.add('pulse');
         } else {
-            badge.style.display = 'none';
+            navbarBadge.classList.remove('visible');
         }
     }
+
+    // Update count di drawer header
+    const drawerCount = document.getElementById('cartDrawerCount');
+    if (drawerCount) drawerCount.textContent = cart.length;
 }
 
 // ===== ADD TO CART =====
-function addToCart(productId) {
-    // Ambil data produk dari localStorage (admin panel)
-    const products = JSON.parse(localStorage.getItem('fh_products')) || [];
-    const product = products.find(p => p.id === productId);
-    if (!product) {
-        showToastCart('Produk tidak ditemukan', 'error');
-        return;
-    }
-
+function addToCart(productData) {
     const cart = getCart();
-    const existing = cart.find(i => i.id === productId);
+    const existing = cart.find(i => i.id === productData.id);
 
     if (existing) {
         existing.qty += 1;
     } else {
         cart.push({
-            id: product.id,
-            name: product.name,
-            brand: product.brand || '',
-            price: product.price,
-            icon: product.icon || '🛍️',
-            image: product.image || '',
-            imageType: product.imageType || 'emoji',
+            id: productData.id,
+            name: productData.name,
+            brand: productData.brand || '',
+            price: productData.price,
+            icon: productData.icon || '🛍️',
+            image: productData.image || '',
+            imageType: productData.imageType || 'emoji',
             qty: 1
         });
     }
 
     saveCart(cart);
-    showToastCart(`${product.name} ditambahkan ke keranjang!`, 'success');
-}
-
-// Quick add dari tombol di product card
-function quickAddToCart(btn, productId) {
-    addToCart(productId);
-    // Animasi tombol
-    const original = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-check"></i> Berhasil!';
-    btn.style.background = '#059669';
-    setTimeout(() => {
-        btn.innerHTML = original;
-        btn.style.background = '';
-    }, 1500);
+    showToast(`${productData.name} ditambahkan ke keranjang!`, 'success');
 }
 
 // ===== RENDER CART =====
@@ -3290,17 +2731,9 @@ function renderCart() {
     const cart = getCart();
     const itemsEl = document.getElementById('cartItems');
     const footerEl = document.getElementById('cartFooter');
-    const countEl = document.getElementById('cartCount');
-
-    countEl.textContent = cart.length;
 
     if (cart.length === 0) {
-        itemsEl.innerHTML = `
-            <div class="cart-empty">
-                <i class="fas fa-shopping-bag"></i>
-                <h4>Keranjang masih kosong</h4>
-                <p>Yuk mulai belanja produk favoritmu!</p>
-            </div>`;
+        itemsEl.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><h4>Keranjang masih kosong</h4><p>Yuk mulai belanja produk favoritmu!</p></div>';
         footerEl.style.display = 'none';
         return;
     }
@@ -3310,9 +2743,9 @@ function renderCart() {
     itemsEl.innerHTML = cart.map(item => {
         const mediaHTML = (item.imageType === 'image' && item.image)
             ? `<img src="${item.image}" alt="${item.name}">`
-            : item.icon;
+            : item.icon || '🛍️';
         return `
-        <div class="cart-item" data-id="${item.id}">
+        <div class="cart-item">
             <div class="cart-item-img">${mediaHTML}</div>
             <div class="cart-item-info">
                 <h4>${item.name}</h4>
@@ -3325,51 +2758,37 @@ function renderCart() {
                     </div>
                     <div style="display:flex;align-items:center;">
                         <span class="cart-item-price">${formatRp(item.price * item.qty)}</span>
-                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Hapus"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             </div>
         </div>`;
     }).join('');
 
-    // Hitung total
     const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-    const shipping = subtotal > 500000 ? 0 : SHIPPING_COST; // Free ongkir > 500rb
+    const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_COST;
     const total = subtotal + shipping;
 
     document.getElementById('cartSubtotal').textContent = formatRp(subtotal);
-    document.getElementById('cartShipping').textContent = shipping === 0 ? 'GRATIS' : formatRp(shipping);
+    document.getElementById('cartShipping').textContent = shipping === 0 ? '🎁 GRATIS' : formatRp(shipping);
     document.getElementById('cartTotal').textContent = formatRp(total);
 }
 
-// ===== QTY MANAGEMENT =====
 function updateQty(id, delta) {
     const cart = getCart();
     const item = cart.find(i => i.id === id);
     if (!item) return;
-    
     item.qty += delta;
-    if (item.qty <= 0) {
-        removeFromCart(id);
-        return;
-    }
+    if (item.qty <= 0) { removeFromCart(id); return; }
     saveCart(cart);
 }
 
 function setQty(id, val) {
     const qty = parseInt(val);
-    if (isNaN(qty) || qty <= 0) {
-        removeFromCart(id);
-        return;
-    }
+    if (isNaN(qty) || qty <= 0) { removeFromCart(id); return; }
     const cart = getCart();
     const item = cart.find(i => i.id === id);
-    if (item) {
-        item.qty = qty;
-        saveCart(cart);
-    }
+    if (item) { item.qty = qty; saveCart(cart); }
 }
 
 function removeFromCart(id) {
@@ -3377,15 +2796,15 @@ function removeFromCart(id) {
     const item = cart.find(i => i.id === id);
     cart = cart.filter(i => i.id !== id);
     saveCart(cart);
-    if (item) showToastCart(`${item.name} dihapus dari keranjang`, 'warning');
+    if (item) showToast(`${item.name} dihapus dari keranjang`, 'warning');
 }
 
 // ===== CART DRAWER =====
 function openCart() {
+    renderCart();
     document.getElementById('cartDrawer').classList.add('active');
     document.getElementById('cartOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
-    renderCart();
 }
 
 function closeCart() {
@@ -3397,13 +2816,9 @@ function closeCart() {
 // ===== CHECKOUT =====
 function openCheckout() {
     const cart = getCart();
-    if (cart.length === 0) {
-        showToastCart('Keranjang kosong!', 'error');
-        return;
-    }
+    if (cart.length === 0) { showToast('Keranjang kosong!', 'error'); return; }
     closeCart();
-    
-    // Render items di modal
+
     const itemsEl = document.getElementById('checkoutItems');
     itemsEl.innerHTML = cart.map(i => `
         <div class="checkout-item">
@@ -3414,12 +2829,12 @@ function openCheckout() {
     `).join('');
 
     const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-    const shipping = subtotal > 500000 ? 0 : SHIPPING_COST;
+    const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_COST;
     const total = subtotal + shipping;
 
     document.getElementById('coSubtotal').textContent = formatRp(subtotal);
+    document.getElementById('coShippingText').textContent = shipping === 0 ? '🎁 GRATIS' : formatRp(shipping);
     document.getElementById('coTotal').textContent = formatRp(total);
-
     document.getElementById('checkoutModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -3439,7 +2854,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// ===== PROCESS CHECKOUT =====
+// ===== ✅ PROCESS CHECKOUT WITH WHATSAPP =====
 function processCheckout() {
     const name = document.getElementById('coName').value.trim();
     const phone = document.getElementById('coPhone').value.trim();
@@ -3447,54 +2862,110 @@ function processCheckout() {
     const address = document.getElementById('coAddress').value.trim();
     const city = document.getElementById('coCity').value.trim();
     const postal = document.getElementById('coPostal').value.trim();
+    const notes = document.getElementById('coNotes').value.trim();
 
-    // Validasi
     if (!name) return showFieldError('coName', 'Nama wajib diisi');
-    if (!phone || phone.length < 10) return showFieldError('coPhone', 'No. HP tidak valid');
+    if (!phone || phone.length < 10) return showFieldError('coPhone', 'No. HP tidak valid (min 10 digit)');
     if (!email || !email.includes('@')) return showFieldError('coEmail', 'Email tidak valid');
     if (!address) return showFieldError('coAddress', 'Alamat wajib diisi');
     if (!city) return showFieldError('coCity', 'Kota wajib diisi');
-    if (!postal || postal.length !== 5) return showFieldError('coPostal', 'Kode pos tidak valid');
+    if (!postal || postal.length !== 5) return showFieldError('coPostal', 'Kode pos harus 5 digit');
 
-    // Generate Order ID
-    const orderId = 'FH-' + Date.now().toString().slice(-8);
-    document.getElementById('orderId').textContent = orderId;
-
-    // Simpan order ke localStorage (riwayat)
-    const orders = JSON.parse(localStorage.getItem('fh_orders') || '[]');
     const cart = getCart();
-    const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-    const shipping = subtotal > 500000 ? 0 : SHIPPING_COST;
+    if (cart.length === 0) { showToast('Keranjang kosong!', 'error'); return; }
 
+    const orderId = 'FH-' + Date.now().toString().slice(-8);
+    const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+    const shipping = subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_COST;
+    const total = subtotal + shipping;
+
+    const paymentLabels = {
+        transfer: '🏦 Transfer Bank',
+        ewallet: '📱 E-Wallet (GoPay/OVO/Dana)',
+        cod: '💵 COD (Bayar di Tempat)'
+    };
+
+    // ===== FORMAT PESAN WHATSAPP =====
+    let msg = `🛒 *PESANAN BARU - FASHIONHUB*\n`;
+    msg += `━━━━━━━━━━━━━━━━━━\n\n`;
+    msg += `📋 *No. Order:* ${orderId}\n`;
+    msg += `📅 *Tanggal:* ${new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' })}\n\n`;
+    msg += `👤 *DATA PEMBELI*\n`;
+    msg += `━━━━━━━━━━━━━━━━━━\n`;
+    msg += `Nama : ${name}\n`;
+    msg += `HP   : ${phone}\n`;
+    msg += `Email: ${email}\n\n`;
+    msg += `📍 *ALAMAT PENGIRIMAN*\n`;
+    msg += `━━━━━━━━━━━━━━━━━━\n`;
+    msg += `${address}\n${city}, ${postal}\n\n`;
+    msg += `🛍️ *DETAIL PESANAN*\n`;
+    msg += `━━━━━━━━━━━━━━━━━━\n`;
+    cart.forEach((item, idx) => {
+        msg += `${idx + 1}. ${item.name}\n`;
+        if (item.brand) msg += `   Brand: ${item.brand}\n`;
+        msg += `   ${item.qty} x ${formatRp(item.price)} = *${formatRp(item.price * item.qty)}*\n\n`;
+    });
+    msg += `💰 *RINGKASAN PEMBAYARAN*\n`;
+    msg += `━━━━━━━━━━━━━━━━━━\n`;
+    msg += `Subtotal : ${formatRp(subtotal)}\n`;
+    msg += `Ongkir   : ${shipping === 0 ? '🎁 GRATIS (Belanja >500rb)' : formatRp(shipping)}\n`;
+    msg += `─────────────────\n`;
+    msg += `*TOTAL : ${formatRp(total)}*\n\n`;
+    msg += `💳 *Metode Bayar:* ${paymentLabels[selectedPayment]}\n`;
+    if (notes) msg += `\n📝 *Catatan:*\n${notes}\n`;
+    msg += `\n━━━━━━━━━━━━━━━━━━\n`;
+    msg += `_Dikirim otomatis dari website FashionHub_`;
+
+    // Simpan order
+    const orders = JSON.parse(localStorage.getItem('fh_orders') || '[]');
     orders.push({
-        id: orderId,
-        date: new Date().toISOString(),
+        id: orderId, date: new Date().toISOString(),
         customer: { name, phone, email, address, city, postal },
-        payment: selectedPayment,
-        items: cart,
-        subtotal,
-        shipping,
-        total: subtotal + shipping,
-        status: 'pending'
+        payment: selectedPayment, notes, items: cart, subtotal, shipping, total, status: 'pending'
     });
     localStorage.setItem('fh_orders', JSON.stringify(orders));
+
+    // Generate WA URL
+    lastWaUrl = `https://wa.me/${getAdminWA()}?text=${encodeURIComponent(msg)}`;
 
     // Clear cart & form
     localStorage.removeItem(CART_KEY);
     updateCartBadge();
-    document.getElementById('coName').value = '';
-    document.getElementById('coPhone').value = '';
-    document.getElementById('coEmail').value = '';
-    document.getElementById('coAddress').value = '';
-    document.getElementById('coCity').value = '';
-    document.getElementById('coPostal').value = '';
-    document.getElementById('coNotes').value = '';
+    ['coName', 'coPhone', 'coEmail', 'coAddress', 'coCity', 'coPostal', 'coNotes'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
 
-    // Show success
+    // Show success modal
+    document.getElementById('orderId').textContent = orderId;
     closeCheckout();
+
     setTimeout(() => {
         document.getElementById('successModal').classList.add('active');
+        // Update success actions dengan tombol WA
+        document.getElementById('successActions').innerHTML = `
+            <button onclick="copyOrderId()" style="background:#f3f4f6;color:#4b5563;"><i class="fas fa-copy"></i> Salin Order ID</button>
+            <button onclick="sendToWhatsApp()" style="background:#25D366;color:white;"><i class="fab fa-whatsapp"></i> Kirim ke WhatsApp</button>
+        `;
     }, 300);
+}
+
+function sendToWhatsApp() {
+    if (lastWaUrl) window.open(lastWaUrl, '_blank');
+}
+
+function copyOrderId() {
+    const orderId = document.getElementById('orderId').textContent;
+    navigator.clipboard.writeText(orderId).then(() => {
+        showToast('Order ID berhasil disalin! 📋', 'success');
+    }).catch(() => {
+        const temp = document.createElement('input');
+        temp.value = orderId;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        temp.remove();
+        showToast('Order ID berhasil disalin! 📋', 'success');
+    });
 }
 
 function closeSuccess() {
@@ -3506,16 +2977,16 @@ function showFieldError(fieldId, msg) {
     const field = document.getElementById(fieldId);
     field.style.borderColor = '#dc2626';
     field.focus();
-    showToastCart(msg, 'error');
+    showToast(msg, 'error');
     setTimeout(() => field.style.borderColor = '', 3000);
 }
 
-// ===== TOAST =====
-function showToastCart(message, type = 'success') {
-    let container = document.getElementById('cartToastContainer');
+// ===== TOAST NOTIFICATION =====
+function showToast(message, type = 'success') {
+    let container = document.getElementById('toastContainer');
     if (!container) {
         container = document.createElement('div');
-        container.id = 'cartToastContainer';
+        container.id = 'toastContainer';
         container.style.cssText = 'position:fixed;top:90px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:10px;';
         document.body.appendChild(container);
     }
@@ -3528,12 +2999,12 @@ function showToastCart(message, type = 'success') {
     const c = colors[type] || colors.success;
 
     const toast = document.createElement('div');
-    toast.style.cssText = `background:white;border-radius:12px;padding:14px 18px;box-shadow:0 10px 40px rgba(0,0,0,0.15);display:flex;align-items:center;gap:12px;min-width:280px;animation:toastSlide 0.3s ease-out;border-left:4px solid ${c.bg};`;
+    toast.style.cssText = `background:white;border-radius:12px;padding:14px 18px;box-shadow:0 10px 40px rgba(0,0,0,0.15);display:flex;align-items:center;gap:12px;min-width:280px;max-width:360px;animation:toastSlide 0.3s ease-out;border-left:4px solid ${c.bg};`;
     toast.innerHTML = `
-        <div style="width:36px;height:36px;border-radius:50%;background:${c.bg};color:white;display:flex;align-items:center;justify-content:center;font-size:14px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:${c.bg};color:white;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
             <i class="fas fa-${c.icon}"></i>
         </div>
-        <div style="flex:1;font-size:13.5px;font-weight:600;color:#1f2937;">${message}</div>
+        <div style="flex:1;font-size:13px;font-weight:600;color:#1f2937;line-height:1.4;">${message}</div>
     `;
     container.appendChild(toast);
     setTimeout(() => {
@@ -3544,80 +3015,278 @@ function showToastCart(message, type = 'success') {
     }, 2500);
 }
 
-// ===== AUTO-BIND: Tombol "Tambah ke Keranjang" di product card =====
-function bindQuickAddButtons() {
+// ===== ✅ AUTO-BIND PRODUCT BUTTONS =====
+function bindProductButtons() {
+    // Bind tombol "Tambah ke Keranjang"
     document.querySelectorAll('.product-quick-add').forEach(btn => {
-        if (btn.dataset.bound) return;
-        btn.dataset.bound = 'true';
+        if (btn.dataset.bound === 'cart') return;
+        btn.dataset.bound = 'cart';
         btn.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             const card = this.closest('.product-card');
             if (!card) return;
-            // Cari product ID dari nama produk
-            const name = card.querySelector('.product-name')?.textContent.trim();
-            const products = JSON.parse(localStorage.getItem('fh_products')) || [];
-            const product = products.find(p => p.name === name);
-            if (product) {
-                quickAddToCart(this, product.id);
+
+            // ✅ Cari produk: pertama dari data-id, lalu dari nama
+            const dataId = card.getAttribute('data-id');
+            let product = null;
+
+            if (dataId) {
+                product = findProductById(dataId);
+            }
+
+            if (!product) {
+                const name = card.querySelector('.product-name')?.textContent.trim();
+                if (name) product = findProductByName(name);
+            }
+
+            // ✅ Fallback terakhir: parse dari data-attribute HTML
+            if (!product) {
+                const price = parseInt(card.getAttribute('data-price')) || 0;
+                const brand = card.getAttribute('data-brand') || '';
+                const name = card.querySelector('.product-name')?.textContent.trim() || 'Produk';
+                const icon = card.querySelector('.product-image-bg')?.textContent.trim() || '🛍️';
+                product = { id: Date.now(), name, brand, price, icon, imageType: 'emoji' };
+            }
+
+            if (product && product.price > 0) {
+                addToCart(product);
+                // Animasi tombol
+                const original = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Berhasil!';
+                this.style.background = '#059669';
+                setTimeout(() => {
+                    this.innerHTML = original;
+                    this.style.background = '';
+                }, 1500);
             } else {
-                showToastCart('Produk tidak ditemukan', 'error');
+                showToast('Data produk tidak lengkap', 'error');
             }
         });
     });
 
-    // Bind juga tombol wishlist & eye
+    // Bind tombol wishlist & eye
     document.querySelectorAll('.product-action-btn').forEach(btn => {
-        if (btn.dataset.bound) return;
-        btn.dataset.bound = 'true';
+        if (btn.dataset.bound === 'action') return;
+        btn.dataset.bound = 'action';
         btn.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             const icon = this.querySelector('i');
-            if (icon.classList.contains('fa-heart')) {
+            if (icon && icon.classList.contains('fa-heart')) {
                 if (icon.classList.contains('far')) {
                     icon.classList.replace('far', 'fas');
-                    this.style.background = 'var(--rose, #e94560)';
+                    this.style.background = 'var(--rose)';
                     this.style.color = 'white';
-                    showToastCart('Ditambahkan ke wishlist ❤️', 'success');
+                    showToast('Ditambahkan ke wishlist ❤️', 'success');
                 } else {
                     icon.classList.replace('fas', 'far');
                     this.style.background = 'white';
                     this.style.color = '';
-                    showToastCart('Dihapus dari wishlist', 'warning');
+                    showToast('Dihapus dari wishlist', 'warning');
                 }
-            } else if (icon.classList.contains('fa-eye')) {
+            } else if (icon && icon.classList.contains('fa-eye')) {
                 const card = this.closest('.product-card');
-                const name = card?.querySelector('.product-name')?.textContent;
-                showToastCart(`Quick view: ${name}`, 'success');
+                const name = card?.querySelector('.product-name')?.textContent || 'Produk';
+                showToast(`Quick view: ${name}`, 'success');
             }
         });
     });
 }
 
-// Jalankan binding saat halaman load & setelah data admin di-load
-window.addEventListener('DOMContentLoaded', () => {
-    bindQuickAddButtons();
-    updateCartBadge();
-});
+// ===== LOAD DATA FROM ADMIN PANEL =====
+function loadFromAdmin() {
+    const categories = JSON.parse(localStorage.getItem('fh_categories'));
+    const products = JSON.parse(localStorage.getItem('fh_products'));
+    const trending = JSON.parse(localStorage.getItem('fh_trending'));
 
-// Observer untuk detect perubahan DOM (saat admin load produk)
-const observer = new MutationObserver(() => {
-    bindQuickAddButtons();
-});
-observer.observe(document.body, { childList: true, subtree: true });
+    function renderMedia(item, fontSize) {
+        if (item.imageType === 'image' && item.image) {
+            return `<img src="${item.image}" alt="${item.name || ''}" style="width:100%;height:100%;object-fit:cover;">`;
+        }
+        return item.icon || '📷';
+    }
 
-// ESC key untuk close
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeCart();
-        closeCheckout();
-        closeSuccess();
+    function generateStars(rating) {
+        let html = '';
+        const full = Math.floor(rating);
+        const half = rating % 1 >= 0.5;
+        for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
+        if (half) html += '<i class="fas fa-star-half-stroke"></i>';
+        const empty = 5 - full - (half ? 1 : 0);
+        for (let i = 0; i < empty; i++) html += '<i class="far fa-star"></i>';
+        return html;
+    }
+
+    if (categories && categories.length > 0) {
+        const grid = document.querySelector('.categories-grid');
+        if (grid) {
+            grid.innerHTML = categories.map(c => `
+                <a href="#produk" class="category-card fh-reveal visible">
+                    <div class="category-icon" style="background:${c.imageType !== 'image' ? (c.color || '#fce4ec') : '#f3f4f6'};overflow:hidden;">
+                        ${renderMedia(c)}
+                    </div>
+                    <h3>${c.name}</h3>
+                    <p>${c.count.toLocaleString('id-ID')} produk</p>
+                </a>
+            `).join('');
+        }
+    }
+
+    if (products && products.length > 0) {
+        const grid = document.getElementById('productsGrid');
+        if (grid) {
+            grid.innerHTML = products.map(p => {
+                const discount = p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+                const badgeHTML = p.badge ? `<span class="product-badge ${p.badge}">${p.badge === 'sale' ? `-${discount}%` : p.badge === 'new' ? 'Baru' : 'Hot'}</span>` : '';
+                const mediaHTML = (p.imageType === 'image' && p.image)
+                    ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`
+                    : p.icon || '📷';
+                const descHTML = p.description
+                    ? `<p style="font-size:12px;color:var(--gray-500);margin-bottom:10px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.description}</p>`
+                    : '';
+
+                return `
+                    <div class="product-card fh-reveal visible" data-category="${p.category}" data-id="${p.id}" data-price="${p.price}" data-brand="${p.brand || ''}">
+                        <div class="product-image">
+                            <div class="product-image-bg">${mediaHTML}</div>
+                            ${badgeHTML}
+                            <div class="product-actions">
+                                <button class="product-action-btn"><i class="far fa-heart"></i></button>
+                                <button class="product-action-btn"><i class="fas fa-eye"></i></button>
+                            </div>
+                            <button class="product-quick-add"><i class="fas fa-shopping-bag"></i> Tambah ke Keranjang</button>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-brand">${p.brand || '-'}</div>
+                            <h3 class="product-name">${p.name}</h3>
+                            ${descHTML}
+                            <div class="product-rating">
+                                <div class="product-stars">${generateStars(p.rating)}</div>
+                                <span>(${p.reviews})</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="current">Rp ${p.price.toLocaleString('id-ID')}</span>
+                                ${p.originalPrice ? `<span class="original">Rp ${p.originalPrice.toLocaleString('id-ID')}</span>` : ''}
+                                ${discount ? `<span class="discount">-${discount}%</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    }
+
+    if (trending) {
+        const mainCard = document.querySelector('.trending-main');
+        if (mainCard && trending.main) {
+            const m = trending.main;
+            const mainIcon = mainCard.querySelector('.trending-main-icon');
+            if (m.imageType === 'image' && m.image) {
+                mainIcon.innerHTML = `<img src="${m.image}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;opacity:0.3;">`;
+            } else { mainIcon.textContent = m.icon || '👗'; }
+            mainCard.querySelector('.fh-section-tag').textContent = m.tag || '';
+            mainCard.querySelector('h2').textContent = m.title;
+            mainCard.querySelector('p').textContent = m.desc || '';
+        }
+
+        const sideCards = document.querySelectorAll('.trending-side');
+        if (sideCards.length >= 2) {
+            [trending.side1, trending.side2].forEach((s, idx) => {
+                if (!s) return;
+                const card = sideCards[idx];
+                const imgEl = card.querySelector('.trending-side-image');
+                if (s.imageType === 'image' && s.image) {
+                    imgEl.innerHTML = `<img src="${s.image}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`;
+                } else { imgEl.textContent = s.icon || '📷'; }
+                card.querySelector('h3').textContent = s.title;
+                card.querySelector('p').textContent = s.desc || '';
+                const priceEl = card.querySelector('.product-price');
+                if (priceEl) {
+                    priceEl.innerHTML = `<span class="current">Rp ${s.price ? s.price.toLocaleString('id-ID') : '0'}</span>
+                        ${s.originalPrice ? `<span class="original">Rp ${s.originalPrice.toLocaleString('id-ID')}</span>` : ''}`;
+                }
+            });
+        }
+    }
+
+    // Re-bind buttons setelah data di-load
+    setTimeout(bindProductButtons, 100);
+}
+
+// ===== NAVBAR & SCROLL =====
+const fhNavbar = document.getElementById('fhNavbar');
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        fhNavbar.classList.add('scrolled');
+        backToTop.classList.add('visible');
+    } else {
+        fhNavbar.classList.remove('scrolled');
+        backToTop.classList.remove('visible');
     }
 });
 
-// Init
+// ===== PRODUCT FILTER =====
+function filterProducts(category) {
+    document.querySelectorAll('.product-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.textContent.trim() === category) tab.classList.add('active');
+    });
+
+    document.querySelectorAll('.product-card').forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (category === 'Semua' || cardCategory === category) {
+            card.style.display = 'block';
+            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => { card.style.display = 'none'; }, 300);
+        }
+    });
+}
+
+// ===== SCROLL REVEAL =====
+const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fh-reveal').forEach(el => revealObs.observe(el));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+            e.preventDefault();
+            window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'smooth' });
+        }
+    });
+});
+
+// ===== ESC KEY =====
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeCart(); closeCheckout(); closeSuccess(); }
+});
+
+// ===== INIT =====
+loadFromAdmin();
+bindProductButtons();
 updateCartBadge();
+
+// MutationObserver untuk re-bind saat DOM berubah
+const observer = new MutationObserver(() => bindProductButtons());
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Listen storage changes dari admin panel
+window.addEventListener('storage', (e) => {
+    if (['fh_categories', 'fh_products', 'fh_trending'].includes(e.key)) loadFromAdmin();
+});
 </script>
-    
-    
+
 </body>
 </html>
