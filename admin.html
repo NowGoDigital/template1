@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel — FashionHub Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
@@ -38,6 +38,205 @@
             min-height: 100vh;
         }
 
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .login-screen.hidden { display: none; }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            animation: loginSlide 0.5s ease-out;
+        }
+
+        @keyframes loginSlide {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .login-logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .login-logo h1 em {
+            font-style: normal;
+            color: var(--secondary);
+        }
+
+        .login-logo p {
+            font-size: 12px;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .login-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #c0392b);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 20px auto 24px;
+            box-shadow: 0 10px 30px rgba(233,69,96,0.4);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .login-title h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .login-title p {
+            font-size: 13.5px;
+            color: var(--text-3);
+        }
+
+        .login-form .form-group { margin-bottom: 16px; }
+
+        .login-form label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-2);
+            margin-bottom: 6px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-4);
+            font-size: 14px;
+        }
+
+        .input-with-icon .toggle-pass {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-4);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .input-with-icon .toggle-pass:hover { color: var(--secondary); }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 13px 14px 13px 42px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .input-with-icon input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+        }
+
+        .login-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--text-2);
+        }
+
+        .login-checkbox input { accent-color: var(--secondary); }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: var(--secondary);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            background: #d63050;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(233,69,96,0.4);
+        }
+
+        .login-error {
+            background: #fee2e2;
+            color: var(--danger);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-error.show { display: flex; }
+
+        .login-hint {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: #f0f9ff;
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--info);
+        }
+
+        .login-hint strong { color: var(--primary); }
+
         /* ===== SIDEBAR ===== */
         .sidebar {
             width: 260px;
@@ -65,10 +264,7 @@
             color: white;
         }
 
-        .sidebar-brand h2 em {
-            font-style: normal;
-            color: var(--secondary);
-        }
+        .sidebar-brand h2 em { font-style: normal; color: var(--secondary); }
 
         .sidebar-brand p {
             font-size: 11px;
@@ -78,10 +274,7 @@
             text-transform: uppercase;
         }
 
-        .sidebar-section {
-            padding: 0 16px;
-            margin-bottom: 24px;
-        }
+        .sidebar-section { padding: 0 16px; margin-bottom: 24px; }
 
         .sidebar-section-title {
             font-size: 10px;
@@ -93,9 +286,7 @@
             font-weight: 600;
         }
 
-        .sidebar-menu {
-            list-style: none;
-        }
+        .sidebar-menu { list-style: none; }
 
         .sidebar-menu li a {
             display: flex;
@@ -112,16 +303,8 @@
             cursor: pointer;
         }
 
-        .sidebar-menu li a i {
-            width: 18px;
-            text-align: center;
-            font-size: 15px;
-        }
-
-        .sidebar-menu li a:hover {
-            background: rgba(255,255,255,0.08);
-            color: white;
-        }
+        .sidebar-menu li a i { width: 18px; text-align: center; font-size: 15px; }
+        .sidebar-menu li a:hover { background: rgba(255,255,255,0.08); color: white; }
 
         .sidebar-menu li a.active {
             background: var(--secondary);
@@ -143,6 +326,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 12px;
         }
 
         .sidebar-avatar {
@@ -157,23 +341,30 @@
             font-size: 14px;
         }
 
-        .sidebar-user-info h4 {
+        .sidebar-user-info h4 { font-size: 13px; font-weight: 600; color: white; }
+        .sidebar-user-info p { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: transparent;
+            color: rgba(255,255,255,0.8);
             font-size: 13px;
-            font-weight: 600;
-            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .sidebar-user-info p {
-            font-size: 11px;
-            color: rgba(255,255,255,0.5);
-        }
+        .logout-btn:hover { background: var(--danger); color: white; border-color: var(--danger); }
 
         /* ===== MAIN CONTENT ===== */
-        .main {
-            margin-left: 260px;
-            flex: 1;
-            padding: 0;
-        }
+        .main { margin-left: 260px; flex: 1; padding: 0; }
 
         .topbar {
             background: white;
@@ -187,23 +378,10 @@
             z-index: 50;
         }
 
-        .topbar-left h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text);
-        }
+        .topbar-left h1 { font-size: 20px; font-weight: 700; color: var(--text); }
+        .topbar-left p { font-size: 13px; color: var(--text-3); margin-top: 2px; }
 
-        .topbar-left p {
-            font-size: 13px;
-            color: var(--text-3);
-            margin-top: 2px;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
 
         .topbar-btn {
             padding: 10px 18px;
@@ -221,31 +399,15 @@
             text-decoration: none;
         }
 
-        .topbar-btn:hover {
-            background: var(--bg);
-            border-color: var(--text-4);
-        }
+        .topbar-btn:hover { background: var(--bg); border-color: var(--text-4); }
+        .topbar-btn.primary { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .topbar-btn.primary:hover { background: #d63050; }
 
-        .topbar-btn.primary {
-            background: var(--secondary);
-            color: white;
-            border-color: var(--secondary);
-        }
-
-        .topbar-btn.primary:hover {
-            background: #d63050;
-        }
-
-        /* ===== CONTENT AREA ===== */
-        .content {
-            padding: 32px;
-        }
-
-        /* ===== PAGE SECTIONS ===== */
+        .content { padding: 32px; }
         .page { display: none; }
         .page.active { display: block; }
 
-        /* ===== STATS GRID ===== */
+        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -258,15 +420,10 @@
             border-radius: 16px;
             padding: 24px;
             border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
             transition: all 0.3s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
         .stat-card-icon {
             width: 52px;
@@ -293,11 +450,7 @@
             margin-bottom: 6px;
         }
 
-        .stat-card-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--text);
-        }
+        .stat-card-value { font-size: 28px; font-weight: 800; color: var(--text); }
 
         .stat-card-change {
             display: inline-flex;
@@ -310,15 +463,7 @@
             border-radius: 6px;
         }
 
-        .stat-card-change.up {
-            background: #d1fae5;
-            color: var(--success);
-        }
-
-        .stat-card-change.down {
-            background: #fee2e2;
-            color: var(--danger);
-        }
+        .stat-card-change.up { background: #d1fae5; color: var(--success); }
 
         /* ===== CARD ===== */
         .card {
@@ -338,27 +483,11 @@
             gap: 12px;
         }
 
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text);
-        }
+        .card-title { font-size: 16px; font-weight: 700; color: var(--text); }
+        .card-subtitle { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+        .card-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
-        .card-subtitle {
-            font-size: 13px;
-            color: var(--text-3);
-            margin-top: 2px;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .search-box {
-            position: relative;
-        }
+        .search-box { position: relative; }
 
         .search-box input {
             padding: 9px 14px 9px 36px;
@@ -395,37 +524,16 @@
             align-items: center;
             gap: 6px;
             transition: all 0.2s;
-            text-decoration: none;
         }
 
-        .btn-primary {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #d63050;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(233,69,96,0.3);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--text-2);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg);
-        }
-
+        .btn-primary { background: var(--secondary); color: white; }
+        .btn-primary:hover { background: #d63050; transform: translateY(-1px); }
+        .btn-secondary { background: white; color: var(--text-2); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg); }
         .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #047857; }
-
         .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #b91c1c; }
-
         .btn-sm { padding: 6px 10px; font-size: 12px; }
+
         .btn-icon {
             width: 34px;
             height: 34px;
@@ -435,10 +543,7 @@
         }
 
         /* ===== TABLE ===== */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .data-table { width: 100%; border-collapse: collapse; }
 
         .data-table thead th {
             text-align: left;
@@ -459,23 +564,11 @@
             color: var(--text-2);
         }
 
-        .data-table tbody tr {
-            transition: background 0.2s;
-        }
+        .data-table tbody tr { transition: background 0.2s; }
+        .data-table tbody tr:hover { background: #f9fafb; }
+        .data-table tbody tr:last-child td { border-bottom: none; }
 
-        .data-table tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        .data-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .table-product {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .table-product { display: flex; align-items: center; gap: 12px; }
 
         .table-product-img {
             width: 50px;
@@ -486,19 +579,18 @@
             justify-content: center;
             font-size: 22px;
             flex-shrink: 0;
+            background: var(--bg);
+            overflow: hidden;
         }
 
-        .table-product-info h4 {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 2px;
+        .table-product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .table-product-info p {
-            font-size: 11.5px;
-            color: var(--text-3);
-        }
+        .table-product-info h4 { font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+        .table-product-info p { font-size: 11.5px; color: var(--text-3); }
 
         .badge {
             display: inline-block;
@@ -516,23 +608,9 @@
         .badge-blue { background: #dbeafe; color: var(--info); }
         .badge-gray { background: #f3f4f6; color: var(--text-3); }
 
-        .price-tag {
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .price-tag small {
-            display: block;
-            font-size: 11px;
-            color: var(--text-4);
-            text-decoration: line-through;
-            font-weight: 500;
-        }
-
-        .table-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .price-tag { font-weight: 700; color: var(--text); }
+        .price-tag small { display: block; font-size: 11px; color: var(--text-4); text-decoration: line-through; font-weight: 500; }
+        .table-actions { display: flex; gap: 6px; }
 
         /* ===== CATEGORY GRID ===== */
         .category-grid {
@@ -553,10 +631,7 @@
             transition: all 0.2s;
         }
 
-        .category-card-admin:hover {
-            border-color: var(--secondary);
-            box-shadow: var(--shadow);
-        }
+        .category-card-admin:hover { border-color: var(--secondary); box-shadow: var(--shadow); }
 
         .category-card-icon {
             width: 60px;
@@ -568,36 +643,20 @@
             font-size: 28px;
             flex-shrink: 0;
             background: var(--bg);
+            overflow: hidden;
         }
 
-        .category-card-info {
-            flex: 1;
-        }
+        .category-card-icon img { width: 100%; height: 100%; object-fit: cover; }
 
-        .category-card-info h3 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .category-card-info p {
-            font-size: 12px;
-            color: var(--text-3);
-        }
-
-        .category-card-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .category-card-info { flex: 1; min-width: 0; }
+        .category-card-info h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .category-card-info p { font-size: 12px; color: var(--text-3); margin-bottom: 4px; }
+        .category-card-info .desc { font-size: 11.5px; color: var(--text-4); line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
         /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: rgba(0,0,0,0.5);
             backdrop-filter: blur(4px);
             z-index: 1000;
@@ -607,15 +666,13 @@
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal {
             background: white;
             border-radius: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 640px;
             max-height: 90vh;
             overflow-y: auto;
             animation: modalSlide 0.3s ease-out;
@@ -634,11 +691,7 @@
             align-items: center;
         }
 
-        .modal-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text);
-        }
+        .modal-header h3 { font-size: 18px; font-weight: 700; color: var(--text); }
 
         .modal-close {
             width: 34px;
@@ -655,14 +708,8 @@
             transition: all 0.2s;
         }
 
-        .modal-close:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        .modal-body {
-            padding: 28px;
-        }
+        .modal-close:hover { background: var(--danger); color: white; }
+        .modal-body { padding: 28px; }
 
         .modal-footer {
             padding: 18px 28px;
@@ -673,23 +720,9 @@
         }
 
         /* ===== FORM ===== */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .form-grid.full {
-            grid-template-columns: 1fr;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group.full { grid-column: 1 / -1; }
 
         .form-group label {
             display: block;
@@ -699,9 +732,7 @@
             margin-bottom: 6px;
         }
 
-        .form-group label span.required {
-            color: var(--danger);
-        }
+        .form-group label span.required { color: var(--danger); }
 
         .form-control {
             width: 100%;
@@ -720,19 +751,51 @@
             box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
         }
 
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
+        textarea.form-control { resize: vertical; min-height: 80px; }
+
+        /* ===== IMAGE PICKER (EMOJI OR UPLOAD) ===== */
+        .media-picker {
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
         }
+
+        .media-picker-tabs {
+            display: flex;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .media-picker-tab {
+            flex: 1;
+            padding: 11px;
+            background: transparent;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-3);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .media-picker-tab.active {
+            background: white;
+            color: var(--secondary);
+        }
+
+        .media-picker-content { padding: 16px; }
+        .media-picker-pane { display: none; }
+        .media-picker-pane.active { display: block; }
 
         .emoji-picker {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 10px;
-            max-height: 120px;
+            max-height: 140px;
             overflow-y: auto;
         }
 
@@ -740,7 +803,7 @@
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            background: white;
+            background: var(--bg);
             border: 2px solid transparent;
             cursor: pointer;
             font-size: 20px;
@@ -750,20 +813,62 @@
             transition: all 0.2s;
         }
 
-        .emoji-option:hover {
-            transform: scale(1.1);
-        }
+        .emoji-option:hover { transform: scale(1.1); }
 
         .emoji-option.selected {
             border-color: var(--secondary);
             background: #fce4ec;
         }
 
-        .color-picker {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--bg);
         }
+
+        .upload-zone:hover { border-color: var(--secondary); background: #fef2f4; }
+        .upload-zone.has-image { padding: 10px; }
+
+        .upload-zone i { font-size: 32px; color: var(--text-4); margin-bottom: 8px; }
+        .upload-zone h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+        .upload-zone p { font-size: 12px; color: var(--text-3); }
+
+        .upload-preview {
+            position: relative;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .upload-preview img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .upload-preview .remove-image {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--danger);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .color-picker { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .color-option {
             width: 34px;
@@ -774,10 +879,7 @@
             transition: all 0.2s;
         }
 
-        .color-option.selected {
-            border-color: var(--text);
-            transform: scale(1.15);
-        }
+        .color-option.selected { border-color: var(--text); transform: scale(1.15); }
 
         /* ===== TOAST ===== */
         .toast-container {
@@ -827,23 +929,11 @@
         .toast.error .toast-icon { background: #fee2e2; color: var(--danger); }
         .toast.warning .toast-icon { background: #fef3c7; color: var(--warning); }
 
-        .toast-content h4 {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 2px;
-        }
+        .toast-content h4 { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+        .toast-content p { font-size: 12px; color: var(--text-3); }
 
-        .toast-content p {
-            font-size: 12px;
-            color: var(--text-3);
-        }
-
-        /* ===== CONFIRM DIALOG ===== */
-        .confirm-modal {
-            max-width: 420px;
-            text-align: center;
-        }
+        /* ===== CONFIRM ===== */
+        .confirm-modal { max-width: 420px; text-align: center; }
 
         .confirm-icon {
             width: 64px;
@@ -858,27 +948,11 @@
             font-size: 26px;
         }
 
-        .confirm-modal h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 8px;
-        }
+        .confirm-modal h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .confirm-modal p { font-size: 13.5px; color: var(--text-3); margin-bottom: 20px; line-height: 1.6; }
+        .confirm-actions { display: flex; gap: 10px; justify-content: center; }
 
-        .confirm-modal p {
-            font-size: 13.5px;
-            color: var(--text-3);
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .confirm-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        /* ===== TRENDING CARDS ===== */
+        /* ===== TRENDING ===== */
         .trending-admin-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -891,7 +965,6 @@
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 20px;
-            position: relative;
         }
 
         .trending-admin-card.main {
@@ -911,47 +984,41 @@
             margin-bottom: 10px;
         }
 
-        .trending-admin-card h3 {
+        .trending-admin-card h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+        .trending-admin-card p { font-size: 12.5px; color: var(--text-3); margin-bottom: 14px; line-height: 1.6; }
+        .trending-admin-actions { display: flex; gap: 8px; }
+
+        .trending-preview-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: var(--bg);
+        }
+
+        /* ===== SETTINGS PAGE ===== */
+        .settings-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .settings-card h3 {
             font-size: 16px;
             font-weight: 700;
             color: var(--text);
             margin-bottom: 6px;
-        }
-
-        .trending-admin-card p {
-            font-size: 12.5px;
-            color: var(--text-3);
-            margin-bottom: 14px;
-            line-height: 1.6;
-        }
-
-        .trending-admin-actions {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            color: var(--text-4);
-            margin-bottom: 16px;
-        }
-
-        .empty-state h3 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
-
-        .empty-state p {
+        .settings-card > p {
             font-size: 13px;
             color: var(--text-3);
+            margin-bottom: 20px;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -967,7 +1034,54 @@
 </head>
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">
+                <h1>Fashion<em>Hub</em></h1>
+                <p>Admin Panel</p>
+            </div>
+            <div class="login-icon"><i class="fas fa-lock"></i></div>
+            <div class="login-title">
+                <h2>Selamat Datang Kembali</h2>
+                <p>Silakan login untuk melanjutkan</p>
+            </div>
+            <div class="login-error" id="loginError">
+                <i class="fas fa-circle-exclamation"></i>
+                <span id="loginErrorMsg">Password salah!</span>
+            </div>
+            <form class="login-form" id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="loginUsername" placeholder="Masukkan username" autocomplete="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Masukkan password" autocomplete="current-password">
+                        <button type="button" class="toggle-pass" onclick="togglePassword()"><i class="fas fa-eye" id="eyeIcon"></i></button>
+                    </div>
+                </div>
+                <div class="login-checkbox">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Ingat saya di perangkat ini</label>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-right-to-bracket"></i> Masuk
+                </button>
+            </form>
+            <div class="login-hint">
+                <i class="fas fa-circle-info"></i>
+                Default: <strong>admin</strong> / <strong>admin123</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
         <div class="sidebar-brand">
             <h2>Fashion<em>Hub</em></h2>
@@ -985,8 +1099,9 @@
         </div>
 
         <div class="sidebar-section">
-            <div class="sidebar-section-title">Tools</div>
+            <div class="sidebar-section-title">Settings</div>
             <ul class="sidebar-menu">
+                <li><a href="#" data-page="settings"><i class="fas fa-gear"></i> Pengaturan</a></li>
                 <li><a href="#" id="exportBtn"><i class="fas fa-file-export"></i> Export Data</a></li>
                 <li><a href="#" id="resetBtn"><i class="fas fa-rotate-left"></i> Reset Data</a></li>
                 <li><a href="index.html" target="_blank"><i class="fas fa-external-link"></i> Lihat Website</a></li>
@@ -997,35 +1112,32 @@
             <div class="sidebar-user">
                 <div class="sidebar-avatar">AD</div>
                 <div class="sidebar-user-info">
-                    <h4>Admin</h4>
+                    <h4 id="sidebarUsername">Admin</h4>
                     <p>Super Administrator</p>
                 </div>
             </div>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-right-from-bracket"></i> Logout
+            </button>
         </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- ===== MAIN ===== -->
     <main class="main">
-        <!-- TOPBAR -->
         <div class="topbar">
             <div class="topbar-left">
                 <h1 id="pageTitle">Dashboard</h1>
                 <p id="pageSubtitle">Ringkasan data konten website</p>
             </div>
             <div class="topbar-right">
-                <a href="index.html" target="_blank" class="topbar-btn">
-                    <i class="fas fa-eye"></i> Preview
-                </a>
-                <button class="topbar-btn" id="syncBtn">
-                    <i class="fas fa-sync"></i> Sync
-                </button>
+                <a href="index.html" target="_blank" class="topbar-btn"><i class="fas fa-eye"></i> Preview</a>
+                <button class="topbar-btn" id="syncBtn"><i class="fas fa-sync"></i> Sync</button>
             </div>
         </div>
 
-        <!-- CONTENT -->
         <div class="content">
 
-            <!-- DASHBOARD PAGE -->
+            <!-- DASHBOARD -->
             <section class="page active" id="page-dashboard">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -1063,12 +1175,7 @@
                     </div>
                     <table class="data-table">
                         <thead>
-                            <tr>
-                                <th>Waktu</th>
-                                <th>Aktivitas</th>
-                                <th>Item</th>
-                                <th>Tipe</th>
-                            </tr>
+                            <tr><th>Waktu</th><th>Aktivitas</th><th>Item</th><th>Tipe</th></tr>
                         </thead>
                         <tbody id="activityLog">
                             <tr><td colspan="4" style="text-align:center;color:var(--text-4);padding:40px;">Belum ada aktivitas</td></tr>
@@ -1077,7 +1184,7 @@
                 </div>
             </section>
 
-            <!-- CATEGORIES PAGE -->
+            <!-- CATEGORIES -->
             <section class="page" id="page-categories">
                 <div class="card">
                     <div class="card-header">
@@ -1099,7 +1206,7 @@
                 </div>
             </section>
 
-            <!-- PRODUCTS PAGE -->
+            <!-- PRODUCTS -->
             <section class="page" id="page-products">
                 <div class="card">
                     <div class="card-header">
@@ -1136,7 +1243,7 @@
                 </div>
             </section>
 
-            <!-- TRENDING PAGE -->
+            <!-- TRENDING -->
             <section class="page" id="page-trending">
                 <div class="card">
                     <div class="card-header">
@@ -1146,6 +1253,62 @@
                         </div>
                     </div>
                     <div class="trending-admin-grid" id="trendingGrid"></div>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section class="page" id="page-settings">
+                <div class="settings-card">
+                    <h3><i class="fas fa-key"></i> Ubah Password Admin</h3>
+                    <p>Perbarui password untuk keamanan akun admin.</p>
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Password Lama <span class="required">*</span></label>
+                            <input type="password" class="form-control" id="oldPassword" placeholder="Masukkan password lama">
+                        </div>
+                        <div class="form-group">
+                            <label>Password Baru <span class="required">*</span></label>
+                            <input type="password" class="form-control" id="newPassword" placeholder="Minimal 6 karakter">
+                        </div>
+                        <div class="form-group">
+                            <label>Konfirmasi Password <span class="required">*</span></label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Ulangi password baru">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="changePassword()">
+                        <i class="fas fa-save"></i> Simpan Password
+                    </button>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-user-gear"></i> Ubah Username</h3>
+                    <p>Ubah nama pengguna untuk login admin.</p>
+                    <div class="form-group" style="max-width:400px;">
+                        <label>Username Baru</label>
+                        <input type="text" class="form-control" id="newUsername" placeholder="Username baru">
+                    </div>
+                    <button class="btn btn-primary" onclick="changeUsername()">
+                        <i class="fas fa-save"></i> Simpan Username
+                    </button>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-circle-info"></i> Informasi Akun</h3>
+                    <p>Detail akun admin saat ini.</p>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+                        <div style="padding:16px;background:var(--bg);border-radius:10px;">
+                            <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">Username</div>
+                            <div style="font-weight:700;" id="infoUsername">admin</div>
+                        </div>
+                        <div style="padding:16px;background:var(--bg);border-radius:10px;">
+                            <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">Login Terakhir</div>
+                            <div style="font-weight:700;" id="infoLastLogin">-</div>
+                        </div>
+                        <div style="padding:16px;background:var(--bg);border-radius:10px;">
+                            <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">Role</div>
+                            <div style="font-weight:700;">Super Admin</div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1171,7 +1334,7 @@
                         <input type="number" class="form-control" id="categoryCount" placeholder="Contoh: 1240" value="0">
                     </div>
                     <div class="form-group">
-                        <label>Warna Icon</label>
+                        <label>Warna Icon (jika emoji)</label>
                         <div class="color-picker" id="colorPicker">
                             <div class="color-option selected" data-color="#fce4ec" style="background:#fce4ec;"></div>
                             <div class="color-option" data-color="#e3f2fd" style="background:#e3f2fd;"></div>
@@ -1183,8 +1346,30 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Pilih Icon Emoji <span class="required">*</span></label>
-                    <div class="emoji-picker" id="emojiPicker"></div>
+                    <label>Deskripsi Kategori</label>
+                    <textarea class="form-control" id="categoryDesc" placeholder="Deskripsi singkat tentang kategori ini..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Icon / Foto Kategori <span class="required">*</span></label>
+                    <div class="media-picker">
+                        <div class="media-picker-tabs">
+                            <button type="button" class="media-picker-tab active" data-tab="emoji-cat"><i class="fas fa-face-smile"></i> Pilih Emoji</button>
+                            <button type="button" class="media-picker-tab" data-tab="upload-cat"><i class="fas fa-image"></i> Upload Foto</button>
+                        </div>
+                        <div class="media-picker-content">
+                            <div class="media-picker-pane active" data-pane="emoji-cat">
+                                <div class="emoji-picker" id="emojiPicker"></div>
+                            </div>
+                            <div class="media-picker-pane" data-pane="upload-cat">
+                                <div class="upload-zone" id="categoryUploadZone" onclick="document.getElementById('categoryImageInput').click()">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                    <h4>Klik atau seret foto ke sini</h4>
+                                    <p>PNG, JPG, WebP (Max 500KB)</p>
+                                </div>
+                                <input type="file" id="categoryImageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event, 'category')">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1248,8 +1433,30 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Pilih Icon Emoji Produk</label>
-                    <div class="emoji-picker" id="productEmojiPicker"></div>
+                    <label>Deskripsi Produk</label>
+                    <textarea class="form-control" id="productDesc" placeholder="Deskripsi detail produk, bahan, ukuran, dll..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Foto / Icon Produk <span class="required">*</span></label>
+                    <div class="media-picker">
+                        <div class="media-picker-tabs">
+                            <button type="button" class="media-picker-tab active" data-tab="emoji-prod"><i class="fas fa-face-smile"></i> Pilih Emoji</button>
+                            <button type="button" class="media-picker-tab" data-tab="upload-prod"><i class="fas fa-image"></i> Upload Foto</button>
+                        </div>
+                        <div class="media-picker-content">
+                            <div class="media-picker-pane active" data-pane="emoji-prod">
+                                <div class="emoji-picker" id="productEmojiPicker"></div>
+                            </div>
+                            <div class="media-picker-pane" data-pane="upload-prod">
+                                <div class="upload-zone" id="productUploadZone" onclick="document.getElementById('productImageInput').click()">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                    <h4>Klik atau seret foto ke sini</h4>
+                                    <p>PNG, JPG, WebP (Max 500KB)</p>
+                                </div>
+                                <input type="file" id="productImageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event, 'product')">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1278,10 +1485,6 @@
                         <label>Judul <span class="required">*</span></label>
                         <input type="text" class="form-control" id="trendingTitle" placeholder="Judul produk/koleksi">
                     </div>
-                    <div class="form-group full">
-                        <label>Deskripsi</label>
-                        <textarea class="form-control" id="trendingDesc" placeholder="Deskripsi singkat..."></textarea>
-                    </div>
                     <div class="form-group">
                         <label>Harga Sekarang (Rp)</label>
                         <input type="number" class="form-control" id="trendingPrice" placeholder="699000">
@@ -1292,8 +1495,30 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Pilih Icon Emoji</label>
-                    <div class="emoji-picker" id="trendingEmojiPicker"></div>
+                    <label>Deskripsi</label>
+                    <textarea class="form-control" id="trendingDesc" placeholder="Deskripsi singkat..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Foto / Icon <span class="required">*</span></label>
+                    <div class="media-picker">
+                        <div class="media-picker-tabs">
+                            <button type="button" class="media-picker-tab active" data-tab="emoji-trend"><i class="fas fa-face-smile"></i> Pilih Emoji</button>
+                            <button type="button" class="media-picker-tab" data-tab="upload-trend"><i class="fas fa-image"></i> Upload Foto</button>
+                        </div>
+                        <div class="media-picker-content">
+                            <div class="media-picker-pane active" data-pane="emoji-trend">
+                                <div class="emoji-picker" id="trendingEmojiPicker"></div>
+                            </div>
+                            <div class="media-picker-pane" data-pane="upload-trend">
+                                <div class="upload-zone" id="trendingUploadZone" onclick="document.getElementById('trendingImageInput').click()">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                    <h4>Klik atau seret foto ke sini</h4>
+                                    <p>PNG, JPG, WebP (Max 500KB)</p>
+                                </div>
+                                <input type="file" id="trendingImageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event, 'trending')">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1318,55 +1543,178 @@
         </div>
     </div>
 
-    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ===== DATA STORAGE =====
+        // ===== STORAGE KEYS =====
         const STORAGE_KEYS = {
             categories: 'fh_categories',
             products: 'fh_products',
             trending: 'fh_trending',
-            activity: 'fh_activity_log'
+            activity: 'fh_activity_log',
+            credentials: 'fh_credentials',
+            session: 'fh_session',
+            remember: 'fh_remember'
         };
 
-        // Default data
+        // ===== DEFAULT CREDENTIALS =====
+        const DEFAULT_CREDS = { username: 'admin', password: 'admin123' };
+
+        function getCredentials() {
+            const saved = localStorage.getItem(STORAGE_KEYS.credentials);
+            if (saved) return JSON.parse(saved);
+            localStorage.setItem(STORAGE_KEYS.credentials, JSON.stringify(DEFAULT_CREDS));
+            return DEFAULT_CREDS;
+        }
+
+        // ===== LOGIN SYSTEM =====
+        function checkSession() {
+            const session = localStorage.getItem(STORAGE_KEYS.session);
+            if (session === 'active') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                const creds = getCredentials();
+                document.getElementById('sidebarUsername').textContent = creds.username;
+                document.getElementById('infoUsername').textContent = creds.username;
+                document.getElementById('infoLastLogin').textContent = new Date().toLocaleString('id-ID');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+            const creds = getCredentials();
+
+            if (username === creds.username && password === creds.password) {
+                localStorage.setItem(STORAGE_KEYS.session, 'active');
+                if (remember) localStorage.setItem(STORAGE_KEYS.remember, 'true');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('loginError').classList.remove('show');
+                document.getElementById('sidebarUsername').textContent = username;
+                document.getElementById('infoUsername').textContent = username;
+                document.getElementById('infoLastLogin').textContent = new Date().toLocaleString('id-ID');
+                showToast('Login Berhasil', `Selamat datang, ${username}!`);
+            } else {
+                const errEl = document.getElementById('loginError');
+                const msgEl = document.getElementById('loginErrorMsg');
+                if (!username || !password) {
+                    msgEl.textContent = 'Username dan password wajib diisi!';
+                } else if (username !== creds.username) {
+                    msgEl.textContent = 'Username tidak ditemukan!';
+                } else {
+                    msgEl.textContent = 'Password salah! Silakan coba lagi.';
+                }
+                errEl.classList.add('show');
+                setTimeout(() => errEl.classList.remove('show'), 4000);
+            }
+            return false;
+        }
+
+        function handleLogout() {
+            confirmAction('Logout?', 'Anda akan keluar dari panel admin.', () => {
+                localStorage.removeItem(STORAGE_KEYS.session);
+                localStorage.removeItem(STORAGE_KEYS.remember);
+                location.reload();
+            });
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function changePassword() {
+            const oldPass = document.getElementById('oldPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            const creds = getCredentials();
+
+            if (oldPass !== creds.password) {
+                showToast('Error', 'Password lama salah!', 'error');
+                return;
+            }
+            if (newPass.length < 6) {
+                showToast('Error', 'Password baru minimal 6 karakter!', 'error');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                showToast('Error', 'Konfirmasi password tidak cocok!', 'error');
+                return;
+            }
+
+            creds.password = newPass;
+            localStorage.setItem(STORAGE_KEYS.credentials, JSON.stringify(creds));
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            showToast('Berhasil', 'Password berhasil diubah!');
+            logActivity('Ubah Password', creds.username, 'Edit');
+        }
+
+        function changeUsername() {
+            const newUsername = document.getElementById('newUsername').value.trim();
+            if (!newUsername) {
+                showToast('Error', 'Username tidak boleh kosong!', 'error');
+                return;
+            }
+            if (newUsername.length < 3) {
+                showToast('Error', 'Username minimal 3 karakter!', 'error');
+                return;
+            }
+            const creds = getCredentials();
+            const oldUsername = creds.username;
+            creds.username = newUsername;
+            localStorage.setItem(STORAGE_KEYS.credentials, JSON.stringify(creds));
+            document.getElementById('sidebarUsername').textContent = newUsername;
+            document.getElementById('infoUsername').textContent = newUsername;
+            document.getElementById('newUsername').value = '';
+            showToast('Berhasil', 'Username berhasil diubah!');
+            logActivity('Ubah Username', `${oldUsername} → ${newUsername}`, 'Edit');
+        }
+
+        // ===== DEFAULT DATA =====
         const defaultCategories = [
-            { id: 1, name: 'Dress', icon: '👗', count: 1240, color: '#fce4ec' },
-            { id: 2, name: 'Kemeja', icon: '👔', count: 856, color: '#e3f2fd' },
-            { id: 3, name: 'Tas', icon: '👜', count: 2100, color: '#f3e5f5' },
-            { id: 4, name: 'Sepatu', icon: '👟', count: 1780, color: '#fff3e0' },
-            { id: 5, name: 'Jaket', icon: '🧥', count: 650, color: '#e8f5e9' },
-            { id: 6, name: 'Aksesoris', icon: '💍', count: 3200, color: '#fce4ec' }
+            { id: 1, name: 'Dress', icon: '👗', count: 1240, color: '#fce4ec', description: 'Koleksi dress elegan untuk berbagai kesempatan', imageType: 'emoji' },
+            { id: 2, name: 'Kemeja', icon: '👔', count: 856, color: '#e3f2fd', description: 'Kemeja premium untuk gaya formal & casual', imageType: 'emoji' },
+            { id: 3, name: 'Tas', icon: '👜', count: 2100, color: '#f3e5f5', description: 'Tas branded dengan kualitas terbaik', imageType: 'emoji' },
+            { id: 4, name: 'Sepatu', icon: '👟', count: 1780, color: '#fff3e0', description: 'Sepatu nyaman untuk segala aktivitas', imageType: 'emoji' },
+            { id: 5, name: 'Jaket', icon: '🧥', count: 650, color: '#e8f5e9', description: 'Jaket stylish untuk tampilan kekinian', imageType: 'emoji' },
+            { id: 6, name: 'Aksesoris', icon: '💍', count: 3200, color: '#fce4ec', description: 'Aksesoris pelengkap gaya fashion Anda', imageType: 'emoji' }
         ];
 
         const defaultProducts = [
-            { id: 1, name: 'Floral Summer Dress Elegant', brand: 'Zalina Official', category: 'Wanita', price: 179000, originalPrice: 299000, rating: 5, reviews: 128, badge: 'sale', icon: '👗' },
-            { id: 2, name: 'Slim Fit Oxford Premium Shirt', brand: 'Urban Mens Co.', category: 'Pria', price: 249000, originalPrice: 0, rating: 4.5, reviews: 89, badge: 'new', icon: '👔' },
-            { id: 3, name: 'Leather Tote Bag Premium', brand: 'Luxoria Bags', category: 'Aksesoris', price: 389000, originalPrice: 550000, rating: 5, reviews: 256, badge: 'hot', icon: '👜' },
-            { id: 4, name: 'Classic White Sneakers Unisex', brand: 'StepUp Sneakers', category: 'Sepatu', price: 459000, originalPrice: 0, rating: 4, reviews: 67, badge: '', icon: '👟' },
-            { id: 5, name: 'Oversized Denim Jacket Vintage', brand: 'OuterSpace ID', category: 'Pria', price: 259000, originalPrice: 399000, rating: 5, reviews: 194, badge: 'sale', icon: '🧥' },
-            { id: 6, name: 'Pointed Stiletto Heels Premium', brand: 'HeelQueen', category: 'Sepatu', price: 329000, originalPrice: 0, rating: 4.5, reviews: 42, badge: 'new', icon: '👠' },
-            { id: 7, name: 'Minimalist Analog Watch Gold', brand: 'TimeKeeper Co.', category: 'Aksesoris', price: 599000, originalPrice: 899000, rating: 5, reviews: 312, badge: 'hot', icon: '⌚' },
-            { id: 8, name: 'Snapback Cap Limited Edition', brand: 'CapStreet ID', category: 'Aksesoris', price: 129000, originalPrice: 0, rating: 4, reviews: 78, badge: '', icon: '🧢' }
+            { id: 1, name: 'Floral Summer Dress Elegant', brand: 'Zalina Official', category: 'Wanita', price: 179000, originalPrice: 299000, rating: 5, reviews: 128, badge: 'sale', icon: '👗', imageType: 'emoji', description: 'Dress musim panas dengan motif floral yang elegan. Bahan chiffon premium, adem dan nyaman dipakai seharian.' },
+            { id: 2, name: 'Slim Fit Oxford Premium Shirt', brand: 'Urban Mens Co.', category: 'Pria', price: 249000, originalPrice: 0, rating: 4.5, reviews: 89, badge: 'new', icon: '👔', imageType: 'emoji', description: 'Kemeja oxford slim fit dengan bahan katun premium. Cocok untuk acara formal maupun casual.' },
+            { id: 3, name: 'Leather Tote Bag Premium', brand: 'Luxoria Bags', category: 'Aksesoris', price: 389000, originalPrice: 550000, rating: 5, reviews: 256, badge: 'hot', icon: '👜', imageType: 'emoji', description: 'Tas tote dari kulit sintetis premium. Kapasitas besar, cocok untuk kerja dan hangout.' },
+            { id: 4, name: 'Classic White Sneakers Unisex', brand: 'StepUp Sneakers', category: 'Sepatu', price: 459000, originalPrice: 0, rating: 4, reviews: 67, badge: '', icon: '👟', imageType: 'emoji', description: 'Sneakers putih klasik unisex. Sol empuk, cocok untuk daily use dan olahraga ringan.' },
+            { id: 5, name: 'Oversized Denim Jacket Vintage', brand: 'OuterSpace ID', category: 'Pria', price: 259000, originalPrice: 399000, rating: 5, reviews: 194, badge: 'sale', icon: '🧥', imageType: 'emoji', description: 'Jaket denim oversized dengan sentuhan vintage. Bahan denim tebal dan awet.' },
+            { id: 6, name: 'Pointed Stiletto Heels Premium', brand: 'HeelQueen', category: 'Sepatu', price: 329000, originalPrice: 0, rating: 4.5, reviews: 42, badge: 'new', icon: '👠', imageType: 'emoji', description: 'Heels stiletto pointed dengan desain elegan. Tinggi 8cm, nyaman untuk acara formal.' },
+            { id: 7, name: 'Minimalist Analog Watch Gold', brand: 'TimeKeeper Co.', category: 'Aksesoris', price: 599000, originalPrice: 899000, rating: 5, reviews: 312, badge: 'hot', icon: '⌚', imageType: 'emoji', description: 'Jam tangan analog minimalis dengan finishing gold. Water resistant 30m.' },
+            { id: 8, name: 'Snapback Cap Limited Edition', brand: 'CapStreet ID', category: 'Aksesoris', price: 129000, originalPrice: 0, rating: 4, reviews: 78, badge: '', icon: '🧢', imageType: 'emoji', description: 'Topi snapback edisi terbatas dengan bordir premium. Adjustable strap.' }
         ];
 
         const defaultTrending = {
-            main: { id: 'main', tag: "Editor's Pick", title: 'Koleksi Lebaran Elegance Series', desc: 'Busana muslim modern dengan sentuhan elegan untuk hari raya yang berkesan. Tersedia dalam 12 pilihan warna.', icon: '👗', price: 0, originalPrice: 0 },
-            side1: { id: 'side1', tag: 'Trending', title: 'Running Shoes Pro X', desc: 'Sepatu lari ultra ringan dengan teknologi cushion terbaru', icon: '👟', price: 699000, originalPrice: 999000 },
-            side2: { id: 'side2', tag: 'Trending', title: 'Crossbody Bag Signature', desc: 'Tas selempang kulit sintetis premium dengan desain minimalis', icon: '👜', price: 279000, originalPrice: 0 }
+            main: { id: 'main', tag: "Editor's Pick", title: 'Koleksi Lebaran Elegance Series', desc: 'Busana muslim modern dengan sentuhan elegan untuk hari raya yang berkesan. Tersedia dalam 12 pilihan warna.', icon: '👗', imageType: 'emoji', price: 0, originalPrice: 0 },
+            side1: { id: 'side1', tag: 'Trending', title: 'Running Shoes Pro X', desc: 'Sepatu lari ultra ringan dengan teknologi cushion terbaru', icon: '👟', imageType: 'emoji', price: 699000, originalPrice: 999000 },
+            side2: { id: 'side2', tag: 'Trending', title: 'Crossbody Bag Signature', desc: 'Tas selempang kulit sintetis premium dengan desain minimalis', icon: '👜', imageType: 'emoji', price: 279000, originalPrice: 0 }
         };
 
-        // Load data
         let categories = JSON.parse(localStorage.getItem(STORAGE_KEYS.categories)) || defaultCategories;
         let products = JSON.parse(localStorage.getItem(STORAGE_KEYS.products)) || defaultProducts;
         let trending = JSON.parse(localStorage.getItem(STORAGE_KEYS.trending)) || defaultTrending;
         let activityLog = JSON.parse(localStorage.getItem(STORAGE_KEYS.activity)) || [];
 
-        // Emoji options
         const emojiOptions = ['👗','👔','👜','👟','🧥','💍','👠','🧢','⌚','🕶️','👒','🧣','👛','👝','🎒','🥿','👞','👡','👢','🧤','🧦','👚','👕','👖','🩱','👙','🩲','🩳','👘','🥻','🧵','🧶','🎽','💄','💅','💎','📿','👑','🎀','🛍️','🛒','🎁','🎊','🎉'];
 
-        // ===== UTILITY FUNCTIONS =====
+        // ===== UTILITIES =====
         function saveData() {
             localStorage.setItem(STORAGE_KEYS.categories, JSON.stringify(categories));
             localStorage.setItem(STORAGE_KEYS.products, JSON.stringify(products));
@@ -1379,11 +1727,6 @@
             return 'Rp ' + num.toLocaleString('id-ID');
         }
 
-        function getDiscount(price, original) {
-            if (!original || original <= price) return 0;
-            return Math.round(((original - price) / original) * 100);
-        }
-
         function showToast(title, message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -1391,10 +1734,7 @@
             const icons = { success: 'check', error: 'times', warning: 'exclamation' };
             toast.innerHTML = `
                 <div class="toast-icon"><i class="fas fa-${icons[type]}"></i></div>
-                <div class="toast-content">
-                    <h4>${title}</h4>
-                    <p>${message}</p>
-                </div>
+                <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
             `;
             container.appendChild(toast);
             setTimeout(() => {
@@ -1405,12 +1745,7 @@
         }
 
         function logActivity(action, item, type) {
-            activityLog.unshift({
-                time: new Date().toLocaleString('id-ID'),
-                action: action,
-                item: item,
-                type: type
-            });
+            activityLog.unshift({ time: new Date().toLocaleString('id-ID'), action, item, type });
             if (activityLog.length > 50) activityLog = activityLog.slice(0, 50);
             saveData();
             renderActivityLog();
@@ -1419,8 +1754,7 @@
         function confirmAction(title, message, callback) {
             document.getElementById('confirmTitle').textContent = title;
             document.getElementById('confirmMessage').textContent = message;
-            const btn = document.getElementById('confirmBtn');
-            btn.onclick = () => {
+            document.getElementById('confirmBtn').onclick = () => {
                 callback();
                 closeModal('confirmModal');
             };
@@ -1429,6 +1763,92 @@
 
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // ===== IMAGE UPLOAD =====
+        let tempCategoryImage = null;
+        let tempProductImage = null;
+        let tempTrendingImage = null;
+
+        function handleImageUpload(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 500 * 1024) {
+                showToast('Error', 'Ukuran file maksimal 500KB!', 'error');
+                event.target.value = '';
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                showToast('Error', 'File harus berupa gambar!', 'error');
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const dataUrl = e.target.result;
+                if (type === 'category') {
+                    tempCategoryImage = dataUrl;
+                    showUploadPreview('categoryUploadZone', dataUrl, 'category');
+                } else if (type === 'product') {
+                    tempProductImage = dataUrl;
+                    showUploadPreview('productUploadZone', dataUrl, 'product');
+                } else if (type === 'trending') {
+                    tempTrendingImage = dataUrl;
+                    showUploadPreview('trendingUploadZone', dataUrl, 'trending');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showUploadPreview(zoneId, dataUrl, type) {
+            const zone = document.getElementById(zoneId);
+            zone.classList.add('has-image');
+            zone.innerHTML = `
+                <div class="upload-preview">
+                    <img src="${dataUrl}" alt="Preview">
+                    <button type="button" class="remove-image" onclick="removeImage('${type}', event)"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+        }
+
+        function removeImage(type, event) {
+            event.stopPropagation();
+            if (type === 'category') {
+                tempCategoryImage = null;
+                const zone = document.getElementById('categoryUploadZone');
+                zone.classList.remove('has-image');
+                zone.innerHTML = `<i class="fas fa-cloud-arrow-up"></i><h4>Klik atau seret foto ke sini</h4><p>PNG, JPG, WebP (Max 500KB)</p>`;
+                document.getElementById('categoryImageInput').value = '';
+            } else if (type === 'product') {
+                tempProductImage = null;
+                const zone = document.getElementById('productUploadZone');
+                zone.classList.remove('has-image');
+                zone.innerHTML = `<i class="fas fa-cloud-arrow-up"></i><h4>Klik atau seret foto ke sini</h4><p>PNG, JPG, WebP (Max 500KB)</p>`;
+                document.getElementById('productImageInput').value = '';
+            } else if (type === 'trending') {
+                tempTrendingImage = null;
+                const zone = document.getElementById('trendingUploadZone');
+                zone.classList.remove('has-image');
+                zone.innerHTML = `<i class="fas fa-cloud-arrow-up"></i><h4>Klik atau seret foto ke sini</h4><p>PNG, JPG, WebP (Max 500KB)</p>`;
+                document.getElementById('trendingImageInput').value = '';
+            }
+        }
+
+        // ===== MEDIA PICKER TABS =====
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('media-picker-tab') || e.target.closest('.media-picker-tab')) {
+                const tab = e.target.closest('.media-picker-tab');
+                const picker = tab.closest('.media-picker');
+                picker.querySelectorAll('.media-picker-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const targetPane = tab.dataset.tab;
+                picker.querySelectorAll('.media-picker-pane').forEach(p => {
+                    p.classList.toggle('active', p.dataset.pane === targetPane);
+                });
+            }
+        });
 
         // ===== NAVIGATION =====
         document.querySelectorAll('.sidebar-menu a[data-page]').forEach(link => {
@@ -1439,12 +1859,13 @@
                 link.classList.add('active');
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById('page-' + page).classList.add('active');
-                
+
                 const titles = {
                     dashboard: { t: 'Dashboard', s: 'Ringkasan data konten website' },
                     categories: { t: 'Kategori', s: 'Kelola kategori produk' },
                     products: { t: 'Produk Pilihan', s: 'Kelola produk best seller' },
-                    trending: { t: 'Trending', s: 'Kelola konten trending' }
+                    trending: { t: 'Trending', s: 'Kelola konten trending' },
+                    settings: { t: 'Pengaturan', s: 'Kelola akun dan preferensi' }
                 };
                 document.getElementById('pageTitle').textContent = titles[page].t;
                 document.getElementById('pageSubtitle').textContent = titles[page].s;
@@ -1478,22 +1899,33 @@
             `).join('');
         }
 
+        // ===== RENDER MEDIA =====
+        function renderMedia(item, size = 28) {
+            if (item.imageType === 'image' && item.image) {
+                return `<img src="${item.image}" style="width:100%;height:100%;object-fit:cover;" alt="">`;
+            }
+            return `<span style="font-size:${size}px;">${item.icon || '📷'}</span>`;
+        }
+
         // ===== CATEGORIES =====
         function renderCategories(filter = '') {
             const grid = document.getElementById('categoryGrid');
             const filtered = categories.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
-            
+
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-inbox"></i><h3>Tidak ada kategori</h3><p>Kategori tidak ditemukan atau belum ditambahkan.</p></div>`;
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-inbox" style="font-size:48px;color:var(--text-4);display:block;margin-bottom:12px;"></i><h3>Tidak ada kategori</h3><p>Kategori tidak ditemukan.</p></div>`;
                 return;
             }
 
             grid.innerHTML = filtered.map(c => `
                 <div class="category-card-admin">
-                    <div class="category-card-icon" style="background:${c.color};">${c.icon}</div>
+                    <div class="category-card-icon" style="background:${c.imageType !== 'image' ? c.color : 'var(--bg)'};">
+                        ${renderMedia(c, 28)}
+                    </div>
                     <div class="category-card-info">
                         <h3>${c.name}</h3>
                         <p>${c.count.toLocaleString('id-ID')} produk</p>
+                        ${c.description ? `<div class="desc">${c.description}</div>` : ''}
                     </div>
                     <div class="category-card-actions">
                         <button class="btn btn-secondary btn-icon" onclick="editCategory(${c.id})" title="Edit"><i class="fas fa-edit"></i></button>
@@ -1502,6 +1934,10 @@
                 </div>
             `).join('');
         }
+
+        let selectedCategoryEmoji = '👗';
+        let selectedProductEmoji = '👗';
+        let selectedTrendingEmoji = '👗';
 
         function initEmojiPicker(containerId, onSelect) {
             const container = document.getElementById(containerId);
@@ -1524,16 +1960,25 @@
             });
         }
 
-        let selectedCategoryEmoji = '👗';
-        let selectedProductEmoji = '👗';
-        let selectedTrendingEmoji = '👗';
-
         function openCategoryModal(id = null) {
             document.getElementById('categoryModalTitle').textContent = id ? 'Edit Kategori' : 'Tambah Kategori';
             document.getElementById('categoryId').value = id || '';
             document.getElementById('categoryName').value = '';
             document.getElementById('categoryCount').value = 0;
+            document.getElementById('categoryDesc').value = '';
+            document.getElementById('categoryImageInput').value = '';
             selectedCategoryEmoji = '👗';
+            tempCategoryImage = null;
+
+            // Reset upload zone
+            const zone = document.getElementById('categoryUploadZone');
+            zone.classList.remove('has-image');
+            zone.innerHTML = `<i class="fas fa-cloud-arrow-up"></i><h4>Klik atau seret foto ke sini</h4><p>PNG, JPG, WebP (Max 500KB)</p>`;
+
+            // Reset tabs to emoji
+            const picker = zone.closest('.media-picker');
+            picker.querySelectorAll('.media-picker-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+            picker.querySelectorAll('.media-picker-pane').forEach((p, i) => p.classList.toggle('active', i === 0));
 
             initEmojiPicker('emojiPicker', (e) => selectedCategoryEmoji = e);
             initColorPicker();
@@ -1543,7 +1988,8 @@
                 if (cat) {
                     document.getElementById('categoryName').value = cat.name;
                     document.getElementById('categoryCount').value = cat.count;
-                    selectedCategoryEmoji = cat.icon;
+                    document.getElementById('categoryDesc').value = cat.description || '';
+                    selectedCategoryEmoji = cat.icon || '👗';
                     setTimeout(() => {
                         const emojiOpt = document.querySelector(`#emojiPicker .emoji-option[data-emoji="${cat.icon}"]`);
                         if (emojiOpt) emojiOpt.classList.add('selected');
@@ -1551,6 +1997,13 @@
                         if (colorOpt) {
                             document.querySelectorAll('#colorPicker .color-option').forEach(o => o.classList.remove('selected'));
                             colorOpt.classList.add('selected');
+                        }
+                        if (cat.imageType === 'image' && cat.image) {
+                            // Switch to upload tab
+                            picker.querySelectorAll('.media-picker-tab').forEach((t, i) => t.classList.toggle('active', i === 1));
+                            picker.querySelectorAll('.media-picker-pane').forEach((p, i) => p.classList.toggle('active', i === 1));
+                            tempCategoryImage = cat.image;
+                            showUploadPreview('categoryUploadZone', cat.image, 'category');
                         }
                     }, 50);
                 }
@@ -1568,20 +2021,24 @@
             const name = document.getElementById('categoryName').value.trim();
             const count = parseInt(document.getElementById('categoryCount').value) || 0;
             const color = document.querySelector('#colorPicker .color-option.selected')?.dataset.color || '#fce4ec';
+            const description = document.getElementById('categoryDesc').value.trim();
 
-            if (!name) {
-                showToast('Error', 'Nama kategori wajib diisi', 'error');
-                return;
-            }
+            if (!name) { showToast('Error', 'Nama kategori wajib diisi', 'error'); return; }
+
+            // Determine image type
+            const isImageMode = tempCategoryImage !== null;
+            const imageType = isImageMode ? 'image' : 'emoji';
+            const icon = isImageMode ? '' : selectedCategoryEmoji;
+            const image = isImageMode ? tempCategoryImage : '';
 
             if (id) {
                 const idx = categories.findIndex(c => c.id === parseInt(id));
-                categories[idx] = { ...categories[idx], name, count, color, icon: selectedCategoryEmoji };
+                categories[idx] = { ...categories[idx], name, count, color, icon, image, imageType, description };
                 logActivity('Edit Kategori', name, 'Edit');
                 showToast('Berhasil', `Kategori "${name}" berhasil diperbarui`);
             } else {
                 const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-                categories.push({ id: newId, name, count, color, icon: selectedCategoryEmoji });
+                categories.push({ id: newId, name, count, color, icon, image, imageType, description });
                 logActivity('Tambah Kategori', name, 'Tambah');
                 showToast('Berhasil', `Kategori "${name}" berhasil ditambahkan`);
             }
@@ -1597,24 +2054,18 @@
 
         function deleteCategory(id) {
             const cat = categories.find(c => c.id === id);
-            confirmAction(
-                'Hapus Kategori?',
-                `Kategori "${cat.name}" akan dihapus permanen.`,
-                () => {
-                    categories = categories.filter(c => c.id !== id);
-                    saveData();
-                    renderCategories();
-                    renderDashboard();
-                    renderCategoryFilter();
-                    logActivity('Hapus Kategori', cat.name, 'Hapus');
-                    showToast('Berhasil', `Kategori "${cat.name}" telah dihapus`, 'warning');
-                }
-            );
+            confirmAction('Hapus Kategori?', `Kategori "${cat.name}" akan dihapus permanen.`, () => {
+                categories = categories.filter(c => c.id !== id);
+                saveData();
+                renderCategories();
+                renderDashboard();
+                renderCategoryFilter();
+                logActivity('Hapus Kategori', cat.name, 'Hapus');
+                showToast('Berhasil', `Kategori "${cat.name}" telah dihapus`, 'warning');
+            });
         }
 
-        document.getElementById('searchCategory').addEventListener('input', (e) => {
-            renderCategories(e.target.value);
-        });
+        document.getElementById('searchCategory').addEventListener('input', (e) => renderCategories(e.target.value));
 
         // ===== PRODUCTS =====
         function renderProducts(filter = '', catFilter = '') {
@@ -1623,7 +2074,7 @@
             if (catFilter) filtered = filtered.filter(p => p.category === catFilter);
 
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-4);padding:40px;"><i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:10px;"></i>Produk tidak ditemukan</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-4);padding:40px;">Produk tidak ditemukan</td></tr>';
                 return;
             }
 
@@ -1638,7 +2089,9 @@
                 <tr>
                     <td>
                         <div class="table-product">
-                            <div class="table-product-img" style="background:${bgColors[p.category] || '#f3f4f6'};">${p.icon}</div>
+                            <div class="table-product-img" style="background:${p.imageType !== 'image' ? (bgColors[p.category] || '#f3f4f6') : 'var(--bg)'};">
+                                ${renderMedia(p, 22)}
+                            </div>
                             <div class="table-product-info">
                                 <h4>${p.name}</h4>
                                 <p>${p.brand || '-'}</p>
@@ -1681,7 +2134,18 @@
             document.getElementById('productRating').value = 4.5;
             document.getElementById('productReviews').value = 0;
             document.getElementById('productBadge').value = '';
+            document.getElementById('productDesc').value = '';
+            document.getElementById('productImageInput').value = '';
             selectedProductEmoji = '👗';
+            tempProductImage = null;
+
+            const zone = document.getElementById('productUploadZone');
+            zone.classList.remove('has-image');
+            zone.innerHTML = `<i class="fas fa-cloud-arrow-up"></i><h4>Klik atau seret foto ke sini</h4><p>PNG, JPG, WebP (Max 500KB)</p>`;
+
+            const picker = zone.closest('.media-picker');
+            picker.querySelectorAll('.media-picker-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+            picker.querySelectorAll('.media-picker-pane').forEach((p, i) => p.classList.toggle('active', i === 0));
 
             initEmojiPicker('productEmojiPicker', (e) => selectedProductEmoji = e);
 
@@ -1696,10 +2160,17 @@
                     document.getElementById('productRating').value = prod.rating;
                     document.getElementById('productReviews').value = prod.reviews;
                     document.getElementById('productBadge').value = prod.badge || '';
-                    selectedProductEmoji = prod.icon;
+                    document.getElementById('productDesc').value = prod.description || '';
+                    selectedProductEmoji = prod.icon || '👗';
                     setTimeout(() => {
                         const opt = document.querySelector(`#productEmojiPicker .emoji-option[data-emoji="${prod.icon}"]`);
                         if (opt) opt.classList.add('selected');
+                        if (prod.imageType === 'image' && prod.image) {
+                            picker.querySelectorAll('.media-picker-tab').forEach((t, i) => t.classList.toggle('active', i === 1));
+                            picker.querySelectorAll('.media-picker-pane').forEach((p, i) => p.classList.toggle('active', i === 1));
+                            tempProductImage = prod.image;
+                            showUploadPreview('productUploadZone', prod.image, 'product');
+                        }
                     }, 50);
                 }
             } else {
@@ -1721,17 +2192,17 @@
             const rating = parseFloat(document.getElementById('productRating').value) || 4.5;
             const reviews = parseInt(document.getElementById('productReviews').value) || 0;
             const badge = document.getElementById('productBadge').value;
+            const description = document.getElementById('productDesc').value.trim();
 
-            if (!name) {
-                showToast('Error', 'Nama produk wajib diisi', 'error');
-                return;
-            }
-            if (price <= 0) {
-                showToast('Error', 'Harga harus lebih dari 0', 'error');
-                return;
-            }
+            if (!name) { showToast('Error', 'Nama produk wajib diisi', 'error'); return; }
+            if (price <= 0) { showToast('Error', 'Harga harus lebih dari 0', 'error'); return; }
 
-            const data = { name, brand, category, price, originalPrice, rating, reviews, badge, icon: selectedProductEmoji };
+            const isImageMode = tempProductImage !== null;
+            const imageType = isImageMode ? 'image' : 'emoji';
+            const icon = isImageMode ? '' : selectedProductEmoji;
+            const image = isImageMode ? tempProductImage : '';
+
+            const data = { name, brand, category, price, originalPrice, rating, reviews, badge, icon, image, imageType, description };
 
             if (id) {
                 const idx = products.findIndex(p => p.id === parseInt(id));
@@ -1756,26 +2227,18 @@
 
         function deleteProduct(id) {
             const prod = products.find(p => p.id === id);
-            confirmAction(
-                'Hapus Produk?',
-                `Produk "${prod.name}" akan dihapus permanen.`,
-                () => {
-                    products = products.filter(p => p.id !== id);
-                    saveData();
-                    renderProducts();
-                    renderDashboard();
-                    logActivity('Hapus Produk', prod.name, 'Hapus');
-                    showToast('Berhasil', `Produk "${prod.name}" telah dihapus`, 'warning');
-                }
-            );
+            confirmAction('Hapus Produk?', `Produk "${prod.name}" akan dihapus permanen.`, () => {
+                products = products.filter(p => p.id !== id);
+                saveData();
+                renderProducts();
+                renderDashboard();
+                logActivity('Hapus Produk', prod.name, 'Hapus');
+                showToast('Berhasil', `Produk "${prod.name}" telah dihapus`, 'warning');
+            });
         }
 
-        document.getElementById('searchProduct').addEventListener('input', (e) => {
-            renderProducts(e.target.value, document.getElementById('filterCategory').value);
-        });
-        document.getElementById('filterCategory').addEventListener('change', (e) => {
-            renderProducts(document.getElementById('searchProduct').value, e.target.value);
-        });
+        document.getElementById('searchProduct').addEventListener('input', (e) => renderProducts(e.target.value, document.getElementById('filterCategory').value));
+        document.getElementById('filterCategory').addEventListener('change', (e) => renderProducts(document.getElementById('searchProduct').value, e.target.value));
 
         // ===== TRENDING =====
         function renderTrending() {
@@ -1790,7 +2253,9 @@
                 <div class="trending-admin-card ${t.type === 'main' ? 'main' : ''}">
                     <span class="trending-admin-label">${t.label}</span>
                     <div style="display:flex;gap:16px;align-items:center;margin-bottom:10px;">
-                        <div style="font-size:48px;">${t.icon}</div>
+                        <div style="width:60px;height:60px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">
+                            ${renderMedia(t, 32)}
+                        </div>
                         <div style="flex:1;">
                             <h3>${t.title}</h3>
                             ${t.tag ? `<span class="badge badge-rose">${t.tag}</span>` : ''}
@@ -1809,19 +2274,35 @@
             document.getElementById('trendingModalTitle').textContent = 'Edit Trending ' + (type === 'main' ? 'Main' : type === 'side1' ? 'Side 1' : 'Side 2');
             document.getElementById('trendingId').value = type;
             document.getElementById('trendingType').value = type;
-            
+            document.getElementById('trendingImageInput').value = '';
+            tempTrendingImage = null;
+
             const data = trending[type];
             document.getElementById('trendingTag').value = data.tag || '';
             document.getElementById('trendingTitle').value = data.title || '';
             document.getElementById('trendingDesc').value = data.desc || '';
             document.getElementById('trendingPrice').value = data.price || '';
             document.getElementById('trendingOriginalPrice').value = data.originalPrice || '';
-            selectedTrendingEmoji = data.icon;
+            selectedTrendingEmoji = data.icon || '👗';
+
+            const zone = document.getElementById('trendingUploadZone');
+            zone.classList.remove('has-image');
+            zone.innerHTML = `<i class="fas fa-cloud-arrow-up"></i><h4>Klik atau seret foto ke sini</h4><p>PNG, JPG, WebP (Max 500KB)</p>`;
+
+            const picker = zone.closest('.media-picker');
+            picker.querySelectorAll('.media-picker-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+            picker.querySelectorAll('.media-picker-pane').forEach((p, i) => p.classList.toggle('active', i === 0));
 
             initEmojiPicker('trendingEmojiPicker', (e) => selectedTrendingEmoji = e);
             setTimeout(() => {
                 const opt = document.querySelector(`#trendingEmojiPicker .emoji-option[data-emoji="${data.icon}"]`);
                 if (opt) opt.classList.add('selected');
+                if (data.imageType === 'image' && data.image) {
+                    picker.querySelectorAll('.media-picker-tab').forEach((t, i) => t.classList.toggle('active', i === 1));
+                    picker.querySelectorAll('.media-picker-pane').forEach((p, i) => p.classList.toggle('active', i === 1));
+                    tempTrendingImage = data.image;
+                    showUploadPreview('trendingUploadZone', data.image, 'trending');
+                }
             }, 50);
             openModal('trendingModal');
         }
@@ -1834,12 +2315,14 @@
             const price = parseInt(document.getElementById('trendingPrice').value) || 0;
             const originalPrice = parseInt(document.getElementById('trendingOriginalPrice').value) || 0;
 
-            if (!title) {
-                showToast('Error', 'Judul wajib diisi', 'error');
-                return;
-            }
+            if (!title) { showToast('Error', 'Judul wajib diisi', 'error'); return; }
 
-            trending[type] = { ...trending[type], tag, title, desc, price, originalPrice, icon: selectedTrendingEmoji };
+            const isImageMode = tempTrendingImage !== null;
+            const imageType = isImageMode ? 'image' : 'emoji';
+            const icon = isImageMode ? '' : selectedTrendingEmoji;
+            const image = isImageMode ? tempTrendingImage : '';
+
+            trending[type] = { ...trending[type], tag, title, desc, price, originalPrice, icon, image, imageType };
             saveData();
             renderTrending();
             logActivity('Edit Trending', title, 'Edit');
@@ -1862,19 +2345,15 @@
 
         document.getElementById('resetBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            confirmAction(
-                'Reset Semua Data?',
-                'Semua data akan dikembalikan ke default awal. Perubahan yang telah dibuat akan hilang.',
-                () => {
-                    categories = JSON.parse(JSON.stringify(defaultCategories));
-                    products = JSON.parse(JSON.stringify(defaultProducts));
-                    trending = JSON.parse(JSON.stringify(defaultTrending));
-                    activityLog = [];
-                    saveData();
-                    renderAll();
-                    showToast('Berhasil', 'Data berhasil direset ke default', 'warning');
-                }
-            );
+            confirmAction('Reset Semua Data?', 'Semua data akan dikembalikan ke default awal.', () => {
+                categories = JSON.parse(JSON.stringify(defaultCategories));
+                products = JSON.parse(JSON.stringify(defaultProducts));
+                trending = JSON.parse(JSON.stringify(defaultTrending));
+                activityLog = [];
+                saveData();
+                renderAll();
+                showToast('Berhasil', 'Data berhasil direset ke default', 'warning');
+            });
         });
 
         document.getElementById('syncBtn').addEventListener('click', () => {
@@ -1892,6 +2371,8 @@
             renderActivityLog();
         }
 
+        // Check session first
+        checkSession();
         renderAll();
     </script>
 </body>
