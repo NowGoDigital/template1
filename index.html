@@ -2201,19 +2201,29 @@
     </script>
 
 <script>
-    // ===== LOAD DATA DARI ADMIN PANEL (localStorage) =====
+    // ===== LOAD DATA DARI ADMIN PANEL (dengan support foto & deskripsi) =====
     function loadFromAdmin() {
         const categories = JSON.parse(localStorage.getItem('fh_categories'));
         const products = JSON.parse(localStorage.getItem('fh_products'));
         const trending = JSON.parse(localStorage.getItem('fh_trending'));
 
-        // Update Categories
+        // Helper: render media (foto atau emoji)
+        function renderMedia(item, fontSize = '60px') {
+            if (item.imageType === 'image' && item.image) {
+                return `<img src="${item.image}" alt="${item.name || ''}" style="width:100%;height:100%;object-fit:cover;">`;
+            }
+            return item.icon || '📷';
+        }
+
+        // ===== UPDATE CATEGORIES =====
         if (categories && categories.length > 0) {
             const grid = document.querySelector('.categories-grid');
             if (grid) {
                 grid.innerHTML = categories.map(c => `
                     <a href="#produk" class="category-card fh-reveal visible">
-                        <div class="category-icon" style="background:${c.color || '#fce4ec'};">${c.icon}</div>
+                        <div class="category-icon" style="background:${c.imageType !== 'image' ? (c.color || '#fce4ec') : '#f3f4f6'};overflow:hidden;">
+                            ${renderMedia(c, '28px')}
+                        </div>
                         <h3>${c.name}</h3>
                         <p>${c.count.toLocaleString('id-ID')} produk</p>
                     </a>
@@ -2221,7 +2231,7 @@
             }
         }
 
-        // Update Products
+        // ===== UPDATE PRODUCTS =====
         if (products && products.length > 0) {
             const grid = document.getElementById('productsGrid');
             if (grid) {
@@ -2230,10 +2240,18 @@
                     const badgeHTML = p.badge ? `<span class="product-badge ${p.badge}">${p.badge === 'sale' ? `-${discount}%` : p.badge === 'new' ? 'Baru' : 'Hot'}</span>` : '';
                     const starsHTML = generateStars(p.rating);
                     
+                    const mediaHTML = (p.imageType === 'image' && p.image)
+                        ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`
+                        : p.icon || '📷';
+
+                    const descHTML = p.description 
+                        ? `<p style="font-size:12px;color:var(--gray-500);margin-bottom:10px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.description}</p>`
+                        : '';
+                    
                     return `
                         <div class="product-card fh-reveal visible" data-category="${p.category}">
                             <div class="product-image">
-                                <div class="product-image-bg">${p.icon}</div>
+                                <div class="product-image-bg">${mediaHTML}</div>
                                 ${badgeHTML}
                                 <div class="product-actions">
                                     <button class="product-action-btn"><i class="far fa-heart"></i></button>
@@ -2244,6 +2262,7 @@
                             <div class="product-info">
                                 <div class="product-brand">${p.brand || '-'}</div>
                                 <h3 class="product-name">${p.name}</h3>
+                                ${descHTML}
                                 <div class="product-rating">
                                     <div class="product-stars">${starsHTML}</div>
                                     <span>(${p.reviews})</span>
@@ -2258,7 +2277,6 @@
                     `;
                 }).join('');
 
-                // Re-attach wishlist event
                 document.querySelectorAll('.product-action-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const icon = this.querySelector('i');
@@ -2278,48 +2296,43 @@
             }
         }
 
-        // Update Trending
+        // ===== UPDATE TRENDING =====
         if (trending) {
-            // Main trending
             const mainCard = document.querySelector('.trending-main');
             if (mainCard && trending.main) {
                 const m = trending.main;
-                mainCard.querySelector('.trending-main-icon').textContent = m.icon;
+                const mainIcon = mainCard.querySelector('.trending-main-icon');
+                if (m.imageType === 'image' && m.image) {
+                    mainIcon.innerHTML = `<img src="${m.image}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;opacity:0.3;">`;
+                } else {
+                    mainIcon.textContent = m.icon || '👗';
+                }
                 mainCard.querySelector('.fh-section-tag').textContent = m.tag || '';
                 mainCard.querySelector('h2').textContent = m.title;
                 mainCard.querySelector('p').textContent = m.desc || '';
             }
 
-            // Side trending
             const sideCards = document.querySelectorAll('.trending-side');
             if (sideCards.length >= 2) {
-                const s1 = trending.side1;
-                if (s1) {
-                    sideCards[0].querySelector('.trending-side-image').textContent = s1.icon;
-                    sideCards[0].querySelector('h3').textContent = s1.title;
-                    sideCards[0].querySelector('p').textContent = s1.desc || '';
-                    const priceHTML = `
-                        <div class="product-price">
-                            <span class="current">Rp ${s1.price ? s1.price.toLocaleString('id-ID') : '0'}</span>
-                            ${s1.originalPrice ? `<span class="original">Rp ${s1.originalPrice.toLocaleString('id-ID')}</span>` : ''}
-                        </div>
-                    `;
-                    sideCards[0].querySelector('.product-price')?.parentElement && 
-                    (sideCards[0].querySelector('.trending-side-info .product-price').outerHTML = priceHTML);
-                }
-                const s2 = trending.side2;
-                if (s2) {
-                    sideCards[1].querySelector('.trending-side-image').textContent = s2.icon;
-                    sideCards[1].querySelector('h3').textContent = s2.title;
-                    sideCards[1].querySelector('p').textContent = s2.desc || '';
-                    const priceHTML = `
-                        <div class="product-price">
-                            <span class="current">Rp ${s2.price ? s2.price.toLocaleString('id-ID') : '0'}</span>
-                            ${s2.originalPrice ? `<span class="original">Rp ${s2.originalPrice.toLocaleString('id-ID')}</span>` : ''}
-                        </div>
-                    `;
-                    sideCards[1].querySelector('.trending-side-info .product-price').outerHTML = priceHTML;
-                }
+                [trending.side1, trending.side2].forEach((s, idx) => {
+                    if (!s) return;
+                    const card = sideCards[idx];
+                    const imgEl = card.querySelector('.trending-side-image');
+                    if (s.imageType === 'image' && s.image) {
+                        imgEl.innerHTML = `<img src="${s.image}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`;
+                    } else {
+                        imgEl.textContent = s.icon || '📷';
+                    }
+                    card.querySelector('h3').textContent = s.title;
+                    card.querySelector('p').textContent = s.desc || '';
+                    const priceEl = card.querySelector('.product-price');
+                    if (priceEl) {
+                        priceEl.innerHTML = `
+                            <span class="current">Rp ${s.price ? s.price.toLocaleString('id-ID') : '0'}</span>
+                            ${s.originalPrice ? `<span class="original">Rp ${s.originalPrice.toLocaleString('id-ID')}</span>` : ''}
+                        `;
+                    }
+                });
             }
         }
     }
@@ -2335,16 +2348,14 @@
         return html;
     }
 
-    // Run on page load
     loadFromAdmin();
 
-    // Also listen for storage changes (when admin saves data in another tab)
     window.addEventListener('storage', (e) => {
         if (['fh_categories', 'fh_products', 'fh_trending'].includes(e.key)) {
             loadFromAdmin();
         }
     });
-</script>    
+</script>  
    
 </body>
 </html>
